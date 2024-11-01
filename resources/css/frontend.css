@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    font-family: "Jost", sans-serif;
+}
+
+.offer-img-animation {
+    animation: offerImgAnimation 3s infinite ease;
+}
+
+@keyframes offerImgAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+.img-instagram-container:hover .img-instagram{
+    display: flex;
+    opacity: 1;
+}
