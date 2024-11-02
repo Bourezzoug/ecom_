@@ -26,3 +26,74 @@ body {
     display: flex;
     opacity: 1;
 }
+
+/* Burger */
+.hamburger {
+    cursor: pointer;
+    width: 24px;
+    height: 24px;
+    transition: all .25s;
+    position: relative;
+    margin-top:10px;
+}
+.hamburger-top,
+.hamburger-middle,
+.hamburger-bottom {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 24px;
+    height: 2px;
+    background-color: #000;
+    transition: all .5s;
+}
+.hamburger-middle{
+    transform: translateY(7px);
+}
+.hamburger-bottom{
+    transform: translateY(14px);
+}
+.open {
+    transform: rotate(90deg);
+    transform: translateY(0px);
+}
+
+.open .hamburger-top {
+    transform: rotate(45deg) translateY(6px) translate(6px);
+}
+
+.open .hamburger-middle {
+    display: none;
+}
+
+.open .hamburger-bottom {
+    transform: rotate(-45deg) translateY(6px) translate(-6px);
+}
+
+.swiper-pagination-bullet-active {
+    background-color: #448a23 !important;
+}
+
+/* Content Transition */
+.accordion-content {
+    transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+    max-height: 0; /* Initially collapsed */
+    opacity: 0; /* Hidden initially */
+    overflow: hidden; /* Hide content while collapsed */
+}
+
+/* Expanded State */
+.accordion-content.active {
+    opacity: 1;
+    transition: max-height 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+/* SVG Arrow Rotation */
+.accordion-toggle svg {
+    transition: transform 0.3s ease; /* Smooth rotation */
+}
+
+/* Rotate when accordion is open */
+.accordion-toggle.accordion-active svg {
+    transform: rotate(180deg);
+}

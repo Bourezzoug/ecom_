@@ -8,6 +8,8 @@ Route::get('/contact', [FrontEndController::class,'contact'])->name('contact');
 Route::get('/about', [FrontEndController::class,'about'])->name('about');
 Route::get('/vegetables', [FrontEndController::class,'vegetables'])->name('vegetables');
 Route::get('/fruits', [FrontEndController::class,'fruits'])->name('fruits');
+Route::get('/products/{categories}/{name}', [FrontEndController::class,'product'])->name('product');
+
 
 Route::middleware([
     'auth:sanctum',

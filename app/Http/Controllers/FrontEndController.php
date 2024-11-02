@@ -21,4 +21,7 @@ class FrontEndController extends Controller
     public function fruits() {
         return view('frontend.shop.fruit');
     }
+    public function product($categorie, $name) {
+        return view('frontend.shop.product');
+    }
 }

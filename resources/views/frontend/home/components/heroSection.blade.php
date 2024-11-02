@@ -40,15 +40,15 @@ class="relative w-full h-[90vh] overflow-hidden">
              x-transition:leave-end="opacity-0"
              class="absolute inset-0 w-full h-full">
             <!-- Background Image -->
-            <div class="absolute inset-0 w-full h-full bg-cover bg-center"
+            <div class="absolute inset-0 w-full h-full bg-center"
                  :style="`background-image: url('${slide.image}')`">
             </div>
             
             <!-- Content Container -->
             <div :class="{
                 'relative h-full flex items-center': true,
-                'justify-start pl-40': slide.textPosition === 'left',
-                'justify-end pr-4': slide.textPosition === 'right'
+                'justify-start pl-16 md:pl-40': slide.textPosition === 'left',
+                'justify-end pr-4 ml-16': slide.textPosition === 'right'
             }">
                 <div class="max-w-xl">
                     <h3 class="text-sm font-semibold text-main mb-4"
@@ -58,14 +58,14 @@ class="relative w-full h-[90vh] overflow-hidden">
                         x-transition:enter-end="opacity-100 transform translate-y-0">
                     </h3>
                     
-                    <h2 class="text-6xl font-medium mb-6"
+                    <h2 class="text-3xl md:text-5xl lg:text-6xl max-w-xs lg:max-w-none font-medium mb-6"
                         x-text="slide.title"
                         x-transition:enter="transition ease-out duration-700 delay-500"
                         x-transition:enter-start="opacity-0 transform translate-y-4"
                         x-transition:enter-end="opacity-100 transform translate-y-0">
                     </h2>
                     
-                    <p class="text-gray-600 text-xl font-medium mb-8"
+                    <p class="text-gray-600 text-xl max-w-xs lg:max-w-none font-medium mb-8"
                         x-text="slide.description"
                         x-transition:enter="transition ease-out duration-700 delay-700"
                         x-transition:enter-start="opacity-0 transform translate-y-4"

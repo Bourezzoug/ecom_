@@ -1,5 +1,5 @@
 <section id="offer" class="bg-cover bg-center mt-16 py-16" style="background-image: url('//vegvi-store-newdemo.myshopify.com/cdn/shop/files/13_a2a86149-35d0-4c05-971a-448d39810d37.jpg?v=1721614761')">
-    <div class="container mx-auto p-6 grid grid-cols-2">
+    <div class="container mx-auto p-6 grid lg:grid-cols-2">
         <div>
             <h3 class="font-semibold text-xl text-main mt-5">
                 DEAL OF THE DAY
@@ -17,7 +17,7 @@
                     The countdown is <br> on, don't miss out!
                 </p>
                 <div class="w-[1px] h-32 bg-white"></div>
-                <div class="flex items-center space-x-8">
+                <div class="flex items-center flex-wrap gap-8">
                     <div class="flex flex-col items-center space-y-2">
                         <div class="w-16 h-16 rounded-full bg-main text-white text-2xl font-medium flex items-center justify-center">
                             348

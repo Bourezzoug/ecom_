@@ -1,5 +1,5 @@
 <section id="about" class="mt-16">
-    <div class="container mx-auto p-6 grid grid-cols-2">
+    <div class="container mx-auto p-6 grid md:grid-cols-2 gap-5">
         <div>
             <div class="flex items-center space-x-2">
                 <svg aria-hidden="true" focusable="false" role="presentation" width="15" class="icon icon-star" viewBox="0 0 20 19">
@@ -19,7 +19,7 @@
                 </svg>
             </div>
             <div class="mt-6 relative flex flex-col">
-                <h2 class="text-5xl font-medium leading-tight">VEGETABLES GOOD <br>FOR <br>YOUR HEALTH</h2>
+                <h2 class="text-3xl lg:text-5xl font-medium leading-tight">VEGETABLES GOOD <br>FOR <br>YOUR HEALTH</h2>
                 <div class="w-16 h-[2px] bg-main mt-2"></div>
             </div>
             <p class="text-gray-400 text-lg font-medium max-w-md mt-6">

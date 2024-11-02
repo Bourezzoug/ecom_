@@ -1,5 +1,5 @@
 <section id="testimonials" class="bg-cover bg-center mt-16 py-28" style="background-image: url('https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/top-view-vegetables-assortment-with-copy-space_23-2148655325.jpg')">
-    <div class="container mx-auto p-6 grid grid-cols-3 gap-5">
+    <div class="container mx-auto p-6 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         <div class="card bg-white w-full px-6 py-14 rounded-xl shadow-xl">
             <div class="flex items-center space-x-1">
                 <svg aria-hidden="true" focusable="false" role="presentation" width="15" class="icon icon-star" viewBox="0 0 20 19">

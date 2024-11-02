@@ -1,6 +1,9 @@
 @extends('layouts.frontend')
 @section('content')
     @include('frontend.components.header')
+    <div class="bg-cover bg-center bg-fixed flex items-center justify-center p-[130px]" style="background-image: url('https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/15_d4b69147-e50d-492d-bc1f-021f24dd389a.jpg')">
+      <h1 class="text-5xl text-white font-medium">Contact Us</h1>
+  </div>
     <div class="2xl:mx-auto 2xl:container lg:px-20   md:px-6  px-4 w-96 sm:w-auto py-9">
         <!-- ====== Contact Section Start -->
     <section class="relative z-10 overflow-hidden bg-white py-20">
