@@ -7,10 +7,11 @@
             <p class="text-3xl font-medium mt-3">
                 Get first dibs on new <br> arrivals, sales, events and <br> more! 
             </p>
-            <form action="" class="mt-8">
+            <form action="{{ Route('newsletter.store') }}" method="POST" id="newsletter" class="mt-8">
+                @csrf
                 <div class="flex items-center flex-wrap xl:flex-nowrap xl:space-x-2 space-y-2 xl:space-y-0">
-                    <input type="text" class="text-sm border-gray-300 rounded-xl py-3 xl:w-80" placeholder="Your email address">
-                    <button class="bg-black text-white px-2 py-3 xl:px-8 xl:py-4 shadow rounded-xl text-xs tracking-wider font-medium">
+                    <input type="text" name="email" class="text-sm border-gray-300 rounded-xl py-3 xl:w-80" placeholder="Your email address">
+                    <button type="submit" class="bg-black text-white px-2 py-3 xl:px-8 xl:py-4 shadow rounded-xl text-xs tracking-wider font-medium">
                         SUBSCRIBE
                     </button>
                 </div>

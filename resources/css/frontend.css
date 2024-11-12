@@ -97,3 +97,70 @@ body {
 .accordion-toggle.accordion-active svg {
     transform: rotate(180deg);
 }
+
+/* Alert Animation */
+@keyframes borderAnimation {
+    0%{
+        width: 100%;
+    }
+    100%{
+        width: 0%;
+    }
+}
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+    100%{
+        opacity: 0;
+    }
+}
+.border-animation {
+    animation:borderAnimation 2s   ;
+    -webkit-animation:borderAnimation 2s   ;
+}
+.fadeout-animation {
+    animation:fadeOut 2s   ;
+    -webkit-animation:fadeOut 2s   ;
+}
+
+.search-btn::after{
+    content: "";
+    position: absolute;
+    bottom: -18px;
+    right:-3px;
+    background-color: #448a23;
+    height: 2px;
+    width: 55px;
+    transition: all .2s ease;
+} 
+
+@media screen and (min-width:1024px) {
+    .search-input:focus + .search-btn::after {
+        width: 500px;
+      }
+}
+
+@media screen and (max-width:1024px) {
+    .search-input:focus + .search-btn::after {
+        width: 300px;
+    }
+}
+
+.timepicker-dropdown {
+    display: none;
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    width: 100%;
+    z-index: 10;
+}
+.timepicker-dropdown div {
+    padding: 8px;
+    cursor: pointer;
+}
+.timepicker-dropdown div:hover {
+    background-color: #f0f0f0;
+}

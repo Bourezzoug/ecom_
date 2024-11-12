@@ -4,14 +4,14 @@
         {
             image: 'https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/high-angle-vegetables-fruits-assortment.jpg?v=1721459381&width=1920',
             textPosition: 'left',
-            topText: 'WE ARE LARINE',
-            title: 'We are the Best service provider',
-            description: 'Organic food is at the heart of what we do. Our organic whole foods are high quality.'
+            topText: 'LA FERME VERTE',
+            title: 'Nous sommes le meilleur prestataire de services.',
+            description: 'L\'alimentation biologique est au cœur de notre activité. Nos aliments complets biologiques sont de haute qualité.'
         },
         {
             image: 'https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/flat-lay-colourful-composition-vegetables-with-copy-space.jpg?v=1721459424&width=1920',
             textPosition: 'right',
-            topText: 'FRESH & ORGANIC',
+            topText: 'GREEN FARM',
             title: 'Fresh Vegetables & Fruits at your doorstep',
             description: 'Choose from our selection of fresh organic produce delivered right to your home.'
         }
@@ -76,12 +76,12 @@ class="relative w-full h-[90vh] overflow-hidden">
                          x-transition:enter="transition ease-out duration-700 delay-900"
                          x-transition:enter-start="opacity-0 transform translate-y-4"
                          x-transition:enter-end="opacity-100 transform translate-y-0">
-                        <button class="bg-white px-8 py-3 shadow rounded-xl text-xs tracking-wider font-medium">
+                        <a href="/vegetables" class="bg-white px-8 py-3 shadow rounded-xl text-xs tracking-wider font-medium">
                             SHOP NOW
-                        </button>
-                        <button class="bg-black text-white px-8 py-3 shadow rounded-xl text-xs tracking-wider font-medium">
+                        </a>
+                        <a href="/about" class="bg-black text-white px-8 py-3 shadow rounded-xl text-xs tracking-wider font-medium">
                             ABOUT US
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

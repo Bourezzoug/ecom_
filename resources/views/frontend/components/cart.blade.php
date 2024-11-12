@@ -24,17 +24,17 @@
               <div class="mt-8">
                 <div class="flow-root">
                   <ul id="cart-items" role="list" class="-my-6 divide-y divide-gray-200">
-
-                    {{-- @forelse ($cartItems as $item)
+                    @if($cartItems)
+                    @forelse ($cartItems as $item)
                     <li id="cart-id-{{ $item->id }}" class="flex py-6">
                         <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                          <img src="/{{ $item->product->image }}" alt="{{ $item->product->alt }}" class="h-full w-full object-contain object-center">
+                          <img src="/{{ $item->product->main_image }}" alt="{{ $item->product->alt }}" class="h-full w-full object-contain object-center">
                         </div>
                         <div class="ml-4 flex flex-1 flex-col">
                           <div>
-                            <div class="flex justify-between text-base font-medium text-[#cecece]">
-                              <h3>
-                                <a href="{{ Route('product.index',['categorie' => $item->product->category->slug,'slug' => $item->product->slug]) }}">{{ $item->product->title }}</a>
+                            <div class="flex justify-between text-base font-medium">
+                              <h3 class="">
+                                <a href="#">{{ $item->product->name }}</a>
                               </h3>
                               <div class="flex  space-x-1">
                                 @if($item->product->new_price > 0)
@@ -45,28 +45,25 @@
                                 <span class="text-xs">DHS</span>
                               </div>
                             </div>
-                            <p class="mt-1 text-sm text-[#999]">{{ $item->product->category->name }}</p>
+                            <p class="mt-1 text-sm">{{ $item->product->category->name }}</p>
                           </div>
                           <div class="flex flex-1 items-end justify-between text-sm">
                             <div>
-                              @if($item->color != null && $item->size != null)
-                              <p class="mt-1 text-sm text-[#999]">Color : {{ $item->color }}</p>
-                              <p class="mt-1 text-sm text-[#999]">Size : {{ $item->size }}</p>
-                              @endif
-                              <p class="mt-1 text-sm text-[#999]">Quantity : {{ $item->quantity }}</p>
+                              <p class="mt-1 text-sm">Quantity : {{ $item->quantity }}</p>
                             </div>
 
-                            <form action="{{ Route('client.cart.delete',['id' => $item->id]) }}" data-cart-id="{{ $item->id }}"  method="POST" class="flex cart-delete">
+                            <form action="{{ Route('cart.delete',['id' => $item->id]) }}" data-cart-id="{{ $item->id }}"  method="POST" class="flex cart-delete">
                               @csrf
                               @method('DELETE')
-                              <button type="submit" class="font-medium text-[#FF5E21]">Remove</button>
+                              <button type="submit" class="font-medium text-main">Remove</button>
                             </form>
                           </div>
                         </div>
                       </li>
                     @empty
                         
-                    @endforelse --}}
+                    @endforelse
+                    @endif
                   </ul>
                 </div>
               </div>
@@ -76,12 +73,13 @@
               <div class="flex justify-between text-base font-medium">
                 <p>Subtotal</p>
                 <div class="flex items-center space-x-1">
-                  <p id="totalPriceCart">0.00</p> <span class="text-xs">DHS</span>
+                  <p id="totalPriceCart">{{ number_format($totalPrice,2) }}</p> <span class="text-xs">DHS</span>
                 </div>
               </div>
               <p class="mt-0.5 text-sm text-[#999]">Shipping and taxes calculated at checkout.</p>
               <div class="mt-6">
-                <a href="#" id="checkout" class="flex items-center justify-center rounded-md border border-transparent bg-main px-6 py-3 text-base font-medium text-white shadow-sm">Checkout</a>
+
+                <a href="{{ Route('checkout') }}" id="checkout" class="flex items-center justify-center rounded-md border border-transparent bg-main px-6 py-3 text-base font-medium text-white shadow-sm">Checkout</a>
               </div>
 
             </div>

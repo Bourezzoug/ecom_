@@ -3,7 +3,7 @@
     @include('frontend.components.header')
     <section id="products" class="mb-16">
         <div class="container mx-auto p-6 grid grid-cols-1 md:grid-cols-12 gap-16 mt-10">
-            <form action="#" method="GET" class="hidden lg:block col-span-3">
+            <form action="{{ Route('search.index') }}" method="GET" class="hidden lg:block col-span-3">
                 <div id="search" class="mb-10">
                     <h3 class="pb-5 mb-6 border-b border-[#f0f0f0] relative category-product-title">Search</h3>
                     <div class="relative w-full overflow-hidden">
@@ -27,14 +27,15 @@
             </form>
             <div class="col-span-1 md:col-span-12 lg:col-span-9">
                 <div class="flex flex-row-reverse lg:flex-row justify-between items-start">
-                    <form action="#" method="GET" id="sortForm" class="mb-10">
+                    <form action="{{ Route('search.index') }}" method="GET" id="sortForm" class="mb-10">
                         <select name="sort" id="sort" class="bg-transparent w-64 p-2 border-gray-300">
                             <option value="Default Sorting">Default Sorting</option>
-                            <option value="Name, A to Z">Name, A to Z</option>
-                            <option value="Name, Z to A">Name, Z to A</option>
-                            <option value="Price, low to high">Price, low to high</option>
-                            <option value="Price, high to low">Price, high to low</option>
+                            <option value="name-a-to-z">Name, A to Z</option>
+                            <option value="name-z-to-a">Name, Z to A</option>
+                            <option value="price-low-to-high">Price, low to high</option>
+                            <option value="price-high-to-low">Price, high to low</option>
                         </select>
+                        <input type="hidden" name="category" value="1">
                     </form>
                     <button class="lg:hidden" id="open-products-filter">
                         <i class="fa-solid fa-ellipsis text-[#cecece] text-2xl"></i>
@@ -42,78 +43,44 @@
                 </div>
     
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @forelse ($vegetables as $vegetable)
+                    <!-- Product -->
+                    <div class="swiper-slide">
+                        <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
+                            <a href="{{ Route('product',['categories' => $vegetable->category->slug,'name' => $vegetable->slug,'id' => $vegetable->id]) }}">
+                                <img src="{{ $vegetable->main_image }}" alt="{{ $vegetable->alt }}">
+                            </a>
+                            <h3 class="font-medium">
+                                <a href="{{ Route('product',['categories' => $vegetable->category->slug,'name' => $vegetable->slug,'id' => $vegetable->id]) }}">
+                                    {{ $vegetable->name }}
+                                </a>
+                            </h3>
+                            @if ($vegetable->percentage != null)
+                            <div class="flex items-center space-x-3 font-medium text-sm">
+                                <span class="text-main">{{ number_format($vegetable->price, 2) }} <span class="text-xs">Dhs</span></span>
+                                <del class="text-gray-400">{{ number_format($vegetable->price + ($vegetable->price * ($vegetable->percentage / 100))) }} <span class="text-xs">Dhs</span></del>
+                            </div>
+                            @else
+                            <div class="flex items-center space-x-3 font-medium text-sm">
+                                <span class="text-main">{{ number_format($vegetable->price, 2) }} <span class="text-xs">Dhs</span></span>
+                                {{-- <del class="text-gray-400">{{ $vegetable->price + ($vegetable->price * ($vegetable->percentage / 100)) }} <span class="text-xs">Dhs</span></del> --}}
+                            </div>
+                            @endif
+                            @if ($vegetable->percentage != null)
+                                <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
+                            @endif
+                        </div>
+                    </div>
+                @empty
+                    
+                @endforelse
     
-    
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
-                    <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                        <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/20_a446fe3e-54e5-4361-94ee-3949576c382b.jpg?v=1721288232&width=600" alt="">
-                        <h3 class="font-medium">
-                            Lettuce Vegetable
-                        </h3>
-                        <div class="flex items-center space-x-3 font-medium text-sm">
-                            <span class="text-main">$50.00</span>
-                            <del class="text-gray-400">$70.00</del>
-                        </div>
-                        <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
-                    </div>
                     
     
                 </div>
-                {{-- {{ $products->links() }} --}}
+                <div class="mt-16">
+                    {{ $vegetables->links() }}
+                </div>
             </div>
         </div>
         <div id="search-products-overlay" class="w-screen h-screen bg-[#cecece] hidden  bg-opacity-40 fixed z-10 top-0 left-0 "></div>

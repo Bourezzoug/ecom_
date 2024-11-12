@@ -1,7 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
     @include('frontend.components.header')
-    @include('frontend.components.cart')
+    @include('frontend.components.alert')
     @include('frontend.home.components.heroSection')
     @include('frontend.home.components.shopNow')
     @include('frontend.home.components.vegetableProducts')

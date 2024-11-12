@@ -1,6 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
     @include('frontend.components.header')
+    @include('frontend.components.alert')
     <div class="bg-cover bg-center bg-fixed flex items-center justify-center p-[130px]" style="background-image: url('https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/15_d4b69147-e50d-492d-bc1f-021f24dd389a.jpg')">
       <h1 class="text-5xl text-white font-medium">Contact Us</h1>
   </div>
@@ -74,7 +75,7 @@
             </div>
             <div class="w-full px-4 lg:w-1/2 xl:w-5/12">
               <div class="relative rounded-lg bg-white p-8 shadow-2xl sm:p-12">
-                <form action="#" method="POST">
+                <form action="{{ Route('contact.store') }}" method="POST" id="contactForm">
                   @csrf
                   <div class="mb-6">
                     <input
@@ -124,7 +125,7 @@
                   <div>
                     <button
                       type="submit"
-                      class="bg-main-color border-primary w-full rounded border p-3 text-white transition hover:bg-opacity-90"
+                      class="bg-main border-primary w-full rounded border p-3 text-white transition hover:bg-opacity-90"
                     >
                       Envoyer
                     </button>
