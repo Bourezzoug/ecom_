@@ -19,18 +19,18 @@
                 </svg>
             </div>
             <div class="mt-6 relative flex flex-col">
-                <h2 class="text-3xl lg:text-5xl font-medium leading-tight">VEGETABLES GOOD <br>FOR <br>YOUR HEALTH</h2>
+                <h2 class="text-3xl lg:text-5xl font-medium leading-snug">LES BONS LÉGUMES<br>ET FRUITS POUR <br>VOTRE SANTÉ</h2>
                 <div class="w-16 h-[2px] bg-main mt-2"></div>
             </div>
             <p class="text-gray-400 text-lg font-medium max-w-md mt-6">
-                Morbi eget congue lectus. Donec eleifend ultricies urna et euismod. Sed consectetur tellus eget odio aliquet, vel vestibulum tellus sollicitudin. Morbi maximus metus eu eros tincidunt, vitae mollis ante imperdiet.
+                Découvrez les nombreux bienfaits des légumes et fruits frais pour votre santé globale et votre bien-être durable. Notre service de livraison vous apporte au quotidien cette alimentation saine et équilibrée.
             </p>
             <button class="bg-white px-8 py-3 shadow rounded-xl text-xs tracking-wider font-medium border-2 border-black mt-6 hover:bg-black hover:text-white transition-colors">
                 SHOP NOW
             </button>
         </div>
         <div class="overflow-hidden h-[410px]">
-            <img src="https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/man-holding-basket-with-vegetables.jpg?v=1721451723&" class="hover:scale-110 transition-all duration-500 " alt="">
+            <img src="{{ asset('images/farmer.jpg') }}" class="hover:scale-110 transition-all duration-500 " alt="">
         </div>
     </div>
 </section>

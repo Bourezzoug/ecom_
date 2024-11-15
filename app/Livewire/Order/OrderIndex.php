@@ -64,30 +64,49 @@ class OrderIndex extends Component
         }
     }
 
+
     public function exportToExcel($orderId)
     {
         try {
             $order = Order::where('id', $orderId)->first();
-            $productData = collect(json_decode($order->products_cart, true))
-                ->flatMap(function($product) use ($order) {
-                    return [
-                        [
-                            'ID' => $order->id,
-                            'Full Name' => $order->first_name . ' ' . $order->family_name,
-                            'Address' => $order->address,
-                            'Phone' => $order->phone_number,
-                            'City' => $order->city,
-                            'State/Province' => $order->state_province,
-                            'Postal Code' => $order->postal_code,
-                            'Total Price' => $order->total_price,
-                            'Status' => $order->status,
-                            'Product Name' => $product['product'],
-                            'Quantity' => $product['quantity'],
-                            'Price' => $product['price'],
-                            'Created At' => $order->created_at ? $order->created_at->format('Y-m-d H:i:s') : ''
-                        ]
-                    ];
-                });
+            $items = collect(json_decode($order->products_cart, true));
+            
+            $productData = $items->flatMap(function($item) use ($order) {
+                // Base order information
+                $baseData = [
+                    'ID' => $order->id,
+                    'Full Name' => $order->first_name . ' ' . $order->family_name,
+                    'Address' => $order->address,
+                    'Phone' => $order->phone_number,
+                    'City' => $order->city,
+                    'State/Province' => $order->state_province,
+                    'Postal Code' => $order->postal_code,
+                    'Total Price' => $order->total_price,
+                    'Status' => $order->status,
+                    'Created At' => $order->created_at ? $order->created_at->format('Y-m-d H:i:s') : ''
+                ];
+    
+                // Check if the item is a pack or a product
+                if (isset($item['pack_name'])) {
+                    // Pack item
+                    return [[
+                        ...$baseData,
+                        'Type' => 'Pack',
+                        'Name' => $item['pack_name'],
+                        'Price' => $item['pack_price'],
+                        'Quantity' => 1,
+                    ]];
+                } else {
+                    // Product item
+                    return [[
+                        ...$baseData,
+                        'Type' => 'Product',
+                        'Name' => $item['product'],
+                        'Price' => $item['price'],
+                        'Quantity' => $item['quantity'],
+                    ]];
+                }
+            });
     
             $filename = 'order_' . $orderId . '_' . date('Y-m-d_His') . '.xlsx';
             return response()->streamDownload(function() use ($productData) {
@@ -101,15 +120,17 @@ class OrderIndex extends Component
             return null;
         }
     }
-
+    
     public function exportCSV()
     {
         try {
             $orders = Order::all();
             $orderData = $orders->flatMap(function($order) {
-                $products = collect(json_decode($order->products_cart, true));
-                return $products->map(function($product) use ($order) {
-                    return [
+                $items = collect(json_decode($order->products_cart, true));
+                
+                return $items->map(function($item) use ($order) {
+                    // Base order information
+                    $baseData = [
                         'ID' => $order->id,
                         'Full Name' => $order->first_name . ' ' . $order->family_name,
                         'Address' => $order->address,
@@ -119,11 +140,29 @@ class OrderIndex extends Component
                         'Postal Code' => $order->postal_code,
                         'Total Price' => $order->total_price,
                         'Status' => $order->status,
-                        'Product Name' => $product['product'],
-                        'Quantity' => $product['quantity'],
-                        'Price' => $product['price'],
                         'Created At' => $order->created_at ? $order->created_at->format('Y-m-d H:i:s') : ''
                     ];
+    
+                    // Check if the item is a pack or a product
+                    if (isset($item['pack_name'])) {
+                        // Pack item
+                        return [
+                            ...$baseData,
+                            'Type' => 'Pack',
+                            'Name' => $item['pack_name'],
+                            'Price' => $item['pack_price'],
+                            'Quantity' => 1,
+                        ];
+                    } else {
+                        // Product item
+                        return [
+                            ...$baseData,
+                            'Type' => 'Product',
+                            'Name' => $item['product'],
+                            'Price' => $item['price'],
+                            'Quantity' => $item['quantity'],
+                        ];
+                    }
                 });
             });
     

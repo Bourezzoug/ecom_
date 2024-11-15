@@ -24,6 +24,12 @@
                     <x-nav-link href="{{ route('admin.inscrits') }}" :active="request()->routeIs('admin.inscrits')">
                         {{ __('Inscrits') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('admin.feedback') }}" :active="request()->routeIs('admin.feedback')">
+                        {{ __('Feedback') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('admin.pack') }}" :active="request()->routeIs('admin.pack')">
+                        {{ __('Pack') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -181,6 +187,12 @@
                 </x-responsive-nav-link>
                 <x-responsive-nav-link href="{{ route('admin.inscrits') }}" :active="request()->routeIs('admin.inscrits')">
                     {{ __('Inscrits') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('admin.feedback') }}" :active="request()->routeIs('admin.feedback')">
+                    {{ __('Feedback') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="{{ route('admin.pack') }}" :active="request()->routeIs('admin.pack')">
+                    {{ __('Pack') }}
                 </x-responsive-nav-link>
 
                 @if (Laravel\Jetstream\Jetstream::hasApiFeatures())

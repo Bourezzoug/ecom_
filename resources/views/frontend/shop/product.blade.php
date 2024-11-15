@@ -171,8 +171,8 @@
                             </button>
                             <div id="basic-collapse-one-with-arrow-always-open" class="accordion-content w-full px-0 overflow-hidden pr-4" aria-labelledby="basic-heading-one-with-arrow-always-open">
                               <p class="text-sm font-normal mt-4 font-workSans">
-                                <b>Expédition :</b> Livraison Rapide en 3h - 2 jours ouvrés <br>
-                                <b>Frais de livraison :</b> Gratuit pour les commandes supérieures à 500 Dh <b></b>
+                                <b>Expédition :</b> Livraison Rapide en 24H <br>
+                                <b>Frais de livraison :</b> Gratuit pour les commandes supérieures à 199 Dh <b></b>
                               </p>
                             </div>
                         </div>

@@ -102,9 +102,17 @@
                     />
                   </div>
                   <div class="mb-6">
+                    <input
+                      type="text"
+                      name="profession"
+                      placeholder="Profession"
+                      class="text-body-color border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
+                    />
+                  </div>
+                  <div class="mb-6">
                     <select name="subject" id="" class="text-gray-500 border-[f0f0f0] focus:border-primary w-full rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none">
+                        <option value="Donner un Feedback">Donner un Feedback</option>
                         <option value="Demande de devis">Demande de devis</option>
-                        <option value="Rect. des données personnelles">Rect. des données personnelles</option>
                         <option value="Désabonnement">Désabonnement</option>
                         <option value="autre">Autre</option>
                     </select>
@@ -112,7 +120,7 @@
                   <div class="mb-6">
                     <textarea
                       rows="6"
-                      name="body"
+                      name="emailMessage"
                       placeholder="Votre Message"
                       class="text-body-color border-[f0f0f0] focus:border-primary w-full resize-none rounded border py-3 px-[14px] text-base outline-none focus-visible:shadow-none"
                     ></textarea>

@@ -46,18 +46,15 @@
             @forelse ($cart as $item)
                 <li class="flex items-start py-6 space-x-4">
                     <div class="w-20 h-20 bg-[#18181A] rounded-lg">
-                        <img src="/{{ $item->product->main_image }}" alt="{{ $item->product->alt }}" class="flex-none w-full h-full rounded-md object-center object-contain">
+                        <img src="{{ $item->pack_id == null ? $item->product->main_image : asset('images/pack-photo.jpg') }}" alt="{{ $item->pack_id == null ? $item->product->alt : '' }}" class="flex-none w-full h-full rounded-md object-center object-cover">
                     </div>
                     <div class="flex-auto space-y-1">
-                    <h3 class="text-[#333]">{{ $item->product->name }}</h3>
-                    <p class="text-[#999] font-normal text-xs">Quantity : {{ $item->quantity }}</p>
-
-                    </div>
-                    @if ($item->product->new_price > 0)
-                      <p class="flex-none text-base font-medium text-[#333]">{{ number_format($item->product->new_price,2) }}<span class="text-xs">DHS</span></p>
-                    @else
-                      <p class="flex-none text-base font-medium text-[#333]">{{ number_format($item->product->price,2) }}<span class="text-xs">DHS</span></p>
+                    <h3 class="text-[#333]">{{ $item->pack_id == null ? $item->product->name : $item->pack->name }}</h3>
+                    @if($item->pack_id == null)
+                      <p class="text-[#999] font-normal text-xs">Quantity : {{ $item->quantity }}</p>
                     @endif
+                    </div>
+                    <p class="flex-none text-base font-medium text-[#333]">{{ $item->pack_id == null ? number_format($item->product->price,2) : number_format($item->pack->price,2) }}<span class="text-xs">DHS</span></p>
                 </li>
             @empty
                 
@@ -98,7 +95,7 @@
       </div>
     </section>
 
-    <form id="checkoutForm" action="{{ Route("checkout.store") }}" method="POST" class="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
+    <form  action="{{ Route("checkout.store") }}" method="POST" class="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
       @csrf
       @if ($errors->any())
           <div class="alert alert-danger">
@@ -178,8 +175,9 @@
           <div class="mt-6">
             <div>
               <label for="delivery_time" class="block text-sm font-medium text-[#333]">Quand vous voulez recevoir votre commande</label>
-              <div class="mt-1">
-                <input type="time" min="8:00" max="18:00" id="delivery_time" name="delivery_time" class="w-full bg-transparent border-[#cecece] focus:border-[#cecece] focus:ring-[#cecece] rounded-md shadow-sm">
+              <div class="mt-1 relative w-full">
+                <input class="w-full bg-transparent border-[#cecece] focus:border-[#cecece] focus:ring-[#cecece] rounded-md shadow-sm" placeholder="A quelle heure serait-vous dispon" name="delivery_time" type="time" id="delivery_time" style="box-shadow: none" required>
+                <div id="timepicker-dropdown-2" class="timepicker-dropdown-2"></div>
               </div>
             </div>
           </div>
@@ -265,5 +263,48 @@
     });
 
     generateTimeOptions();
+</script>
+<script>
+  const timeInput2 = document.getElementById('delivery_time');
+    const dropdown2 = document.getElementById('timepicker-dropdown-2');
+
+    function generateTimeOptions2() {
+        let start = new Date();
+        start.setHours(8, 0, 0, 0);  // Set start time to 08:00
+
+        const end = new Date();
+        end.setHours(18, 0, 0, 0);  // Set end time to 18:00
+
+        const interval = 30; // 30-minute intervals
+        let optionsHTML = '';
+
+        while (start <= end) {
+            const hours = start.getHours().toString().padStart(2, '0');
+            const minutes = start.getMinutes().toString().padStart(2, '0');
+            const timeString = `${hours}:${minutes}`;
+            optionsHTML += `<div onclick="selectTime2('${timeString}')">${timeString}</div>`;
+
+            start.setMinutes(start.getMinutes() + interval);
+        }
+
+        dropdown2.innerHTML = optionsHTML;
+    }
+
+    function selectTime2(time) {
+        timeInput2.value = time;
+        dropdown2.style.display = 'none';
+    }
+
+    timeInput2.addEventListener('focus', () => {
+        dropdown2.style.display = 'block';
+    });
+
+    document.addEventListener('click', (event) => {
+        if (!timeInput2.contains(event.target) && !dropdown2.contains(event.target)) {
+            dropdown2.style.display = 'none';
+        }
+    });
+
+    generateTimeOptions2();
 </script>
 @endsection

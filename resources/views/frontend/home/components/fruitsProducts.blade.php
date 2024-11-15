@@ -29,7 +29,7 @@
                             </div>
                             @endif
                             @if ($fruit->percentage != null)
-                                <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
+                                <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- {{ $fruit->percentage }}%</div>
                             @endif
                         </div>
                     </div>

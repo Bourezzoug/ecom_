@@ -7,6 +7,8 @@ use App\Models\Product;
 use App\Models\Cart;
 use App\Models\Order;
 use App\Models\Inscrit;
+use App\Models\Feedback;
+use App\Models\Pack;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -25,10 +27,13 @@ class FrontEndController extends Controller
         $fruits = Product::where('category_id', 2)
             ->orderByRaw("CASE WHEN percentage IS NOT NULL THEN 0 ELSE 1 END, created_at DESC")
             ->get();
+
+        $feedback = Feedback::orderBy('created_at','desc')->take(3)->get();
     
         return view('frontend.home.index', [
-            'vegetables' => $vegetables,
-            'fruits' => $fruits
+            'vegetables'    => $vegetables,
+            'fruits'        => $fruits,
+            'feedback'      => $feedback,
         ]);
     }
     public function contact() {
@@ -182,15 +187,21 @@ class FrontEndController extends Controller
 
     public function search(Request $request) {
         $searchQuery = $request->search;
-        $category = $request->category; 
-        $minPrice = $request->minPrice; 
-        $maxPrice = $request->maxPrice; 
-        $sort = $request->sort; 
+        $category   = $request->category; 
+        $minPrice   = $request->minPrice; 
+        $maxPrice   = $request->maxPrice; 
+        $sort       = $request->sort; 
+        $percentage  = $request->percentage; 
 
         $query = Product::where('name', 'LIKE', "%{$searchQuery}%");
 
-        if(!$searchQuery && !$minPrice && !$maxPrice && !$sort) {
+        if(!$searchQuery && !$minPrice && !$maxPrice && !$sort && !$percentage) {
             return redirect()->back();
+        }
+
+        if($percentage) {
+            $query->where('percentage','=',$percentage);
+            // dd('Test');
         }
 
         if($minPrice || $maxPrice) {
@@ -247,10 +258,13 @@ class FrontEndController extends Controller
                 
 
         $totalPrice = $cartItems->sum(function ($item) {
-            if($item->product->new_price > 0) {
-                return $item->product->new_price * $item->quantity;
+            if($item->pack_id != null && $item->product_id) {
+                return ($item->product->price * $item->quantity) + $item->pack->price;
             }
-            else {
+            elseif($item->pack_id != null) {
+                return $item->pack->price;
+            }
+            elseif($item->pack_id == null) {
                 return $item->product->price * $item->quantity;
             }
         });
@@ -267,7 +281,7 @@ class FrontEndController extends Controller
         ]);
     }
 
-    
+    // Y,z_h,(a)F}Z
 
 
 
@@ -301,21 +315,46 @@ class FrontEndController extends Controller
 
         $cartItems = Cart::where("visitor_id",$visitorId)->get();
         $total_price = $cartItems->sum(function ($item) {
-            if($item->product->new_price > 0) {
-                return $item->product->new_price * $item->quantity;
+            if($item->pack_id != null && $item->product_id) {
+                return ($item->product->price * $item->quantity) + $item->pack->price;
             }
-            else {
+            elseif($item->pack_id != null) {
+                return $item->pack->price;
+            }
+            elseif($item->pack_id == null) {
                 return $item->product->price * $item->quantity;
             }
         });
         $cartItemObjects = $cartItems->map(function ($item) {
-            return (object) [
-                'product_id' => $item->product->id,
-                'product' => $item->product->name,
-                'price' => $item->product->price,
-                'quantity' => $item->quantity,
-            ];
+            // Si l'article a un pack et un produit associé
+            if ($item->pack_id !== null && $item->product_id !== null) {
+                return (object) [
+                    'product_id' => $item->product->id,
+                    'product' => $item->product->name,
+                    'price' => $item->product->price,
+                    'quantity' => $item->quantity,
+                    'pack_name' => $item->pack->name,
+                    'pack_price' => $item->pack->price,
+                ];
+            } 
+            // Si l'article a seulement un pack associé
+            elseif ($item->pack_id !== null) {
+                return (object) [
+                    'pack_name' => $item->pack->name,
+                    'pack_price' => $item->pack->price,
+                ];
+            }
+            // Si l'article n'a pas de pack (seulement un produit)
+            else {
+                return (object) [
+                    'product_id' => $item->product->id,
+                    'product' => $item->product->name,
+                    'price' => $item->product->price,
+                    'quantity' => $item->quantity,
+                ];
+            }
         })->toArray();
+        
         $data = [
             'visitor_id'        =>  $visitorId,
             'status'            =>  'unpaid',    
@@ -358,8 +397,21 @@ class FrontEndController extends Controller
         }
     }
     public function contactForm(Request $request) {
-        Mail::to('simobourezzouk@gmail.com')->send(new ContactMail($request->email,$request->nom_complet,$request->telephone,$request->subject,$request->emailMessage));
-        return response()->json(['message' => 'Email sent successfully'], 200);
+        if($request->subject == 'Donner un Feedback') {
+            $data = [
+                'full_name'     =>  $request->nom_complet,
+                'profession'    =>  $request->profession,
+                'feedback'      =>  $request->emailMessage,
+            ];
+            Feedback::create($data);
+            Mail::to('simobourezzouk@gmail.com')->send(new ContactMail($request->email,$request->nom_complet,$request->telephone,$request->profession,$request->subject,$request->emailMessage));
+            return response()->json(['message' => 'Email sent successfully'], 200);
+        }
+        else {
+            Mail::to('simobourezzouk@gmail.com')->send(new ContactMail($request->email,$request->nom_complet,$request->telephone,$request->profession,$request->subject,$request->emailMessage));
+            return response()->json(['message' => 'Email sent successfully'], 200);
+        }
+
     }
     public function storeNewsletter(Request $request) {
         try {
@@ -377,5 +429,39 @@ class FrontEndController extends Controller
             return response()->json(['message' => $e->getMessage()], 422);
         }
         // dd($request->email);
+    }
+    public function storeCartPack(Request $request) {
+         // Check for an existing visitor ID in the session or create a new one
+         if (!Session::has('visitor_id')) {
+            $visitorId = (string) Str::uuid();
+            Session::put('visitor_id', $visitorId);
+        } else {
+            $visitorId = Session::get('visitor_id');
+        }
+        $quantity = 1;
+    
+        // Store cart item in the database using visitor_id
+        $cartItem = Cart::Create(
+            [
+                'visitor_id' => $visitorId,
+                'product_id' => null,
+                'pack_id'   =>  $request->pack_id,
+                'quantity' => $quantity,
+                'quantityType' => null,
+            ]
+        );
+    }
+    public function packs() {
+
+        $pakcs = Pack::orderBy('price', 'asc')->get();
+
+        $cheapOne = $pakcs[0] ?? null;
+        $mediumOne = $pakcs[1] ?? null;
+        $expensiveOne = $pakcs[2] ?? null;
+        return view('frontend.pack.index',[
+            'cheapOne'      =>  $cheapOne,
+            'mediumOne'     =>  $mediumOne,
+            'expensiveOne'  =>  $expensiveOne,
+        ]);
     }
 }

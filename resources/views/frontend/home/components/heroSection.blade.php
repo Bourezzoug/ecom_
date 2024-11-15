@@ -2,14 +2,14 @@
     currentSlide: 0,
     slides: [
         {
-            image: 'https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/high-angle-vegetables-fruits-assortment.jpg?v=1721459381&width=1920',
+            image: '{{ asset('images/vegetables-bg.jpg') }}',
             textPosition: 'left',
             topText: 'LA FERME VERTE',
             title: 'Nous sommes le meilleur prestataire de services.',
             description: 'L\'alimentation biologique est au cœur de notre activité. Nos aliments complets biologiques sont de haute qualité.'
         },
         {
-            image: 'https://vegvi-store-newdemo.myshopify.com/cdn/shop/files/flat-lay-colourful-composition-vegetables-with-copy-space.jpg?v=1721459424&width=1920',
+            image: '{{ asset('images/fruits-bg.png') }}',
             textPosition: 'right',
             topText: 'GREEN FARM',
             title: 'Fresh Vegetables & Fruits at your doorstep',
@@ -40,7 +40,7 @@ class="relative w-full h-[90vh] overflow-hidden">
              x-transition:leave-end="opacity-0"
              class="absolute inset-0 w-full h-full">
             <!-- Background Image -->
-            <div class="absolute inset-0 w-full h-full bg-center"
+            <div class="absolute inset-0 w-full h-full bg-center bg-cover"
                  :style="`background-image: url('${slide.image}')`">
             </div>
             

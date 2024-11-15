@@ -87,9 +87,10 @@
                                     
                                     <p>The Personal Informations about the user :</p>
                                     <ul>
+                                        <li>Email : {{ $email }}</li>
                                         <li>Nom Complet : {{ $nom_complet }}</li>
                                         <li>Telephone : {{ $telephone }}</li>
-                                        <li>Email : {{ $email }}</li>
+                                        <li>Profession : {{ $profession }}</li>
                                     </ul>
 
                                 </td>

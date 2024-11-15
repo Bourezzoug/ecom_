@@ -521,5 +521,24 @@ if(newsletter) {
     });
 }
 
+const infoBtn = document.getElementById('info-btn');
+const infoContent = document.querySelector('.info-btn-content');
 
+if (infoBtn) {
+    infoBtn.addEventListener('click', () => {
+        infoContent.classList.toggle('hidden');
+    });
+
+    // Event delegation to handle clicks outside the container, but allow selection inside
+    document.addEventListener('click', (event) => {
+        if (!infoContent.contains(event.target) && !infoBtn.contains(event.target)) {
+            infoContent.classList.add('hidden');
+        }
+    });
+
+    // Prevent hiding on clicks within the content, allowing selection and copying
+    infoContent.addEventListener('click', (event) => {
+        event.stopPropagation(); // Prevents event propagation to the document
+    });
+}
 

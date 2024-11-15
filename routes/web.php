@@ -10,8 +10,10 @@ Route::get('/contact', [FrontEndController::class,'contact'])->name('contact');
 Route::get('/about', [FrontEndController::class,'about'])->name('about');
 Route::get('/vegetables', [FrontEndController::class,'vegetables'])->name('vegetables');
 Route::get('/fruits', [FrontEndController::class,'fruits'])->name('fruits');
+Route::get('/packs', [FrontEndController::class,'packs'])->name('packs');
 Route::get('/products/{categories}/{name}/{id}', [FrontEndController::class,'product'])->name('product');
 Route::post('/cart/{id}',[FrontEndController::class,'storeCart'])->name('cart.store');
+Route::post('/cart',[FrontEndController::class,'storeCartPack'])->name('cart.store.pack');
 Route::delete('/cart/{id}', [FrontEndController::class, 'delete'])->name('cart.delete');
 Route::get('/search',[FrontEndController::class,'search'])->name('search.index');
 Route::get("/checkout",[FrontEndController::class,'checkout'])->name("checkout");
@@ -33,6 +35,11 @@ Route::middleware([
     Route::get('/products/update/{id}',\App\Livewire\Products\ProductUpdate::class)->name('products.update');
     Route::get('/orders',\App\Livewire\Order\OrderIndex::class)->name('orders');
     Route::get('/inscrits',\App\Livewire\Inscrit\InscritIndex::class)->name('inscrits');
+    Route::get('/feedback',\App\Livewire\Feedback\FeedbackIndex::class)->name('feedback');
+    Route::get('/pack',\App\Livewire\Pack\PackIndex::class)->name('pack');
+});
 
+Route::get('/phpv',function() {
+    return phpinfo();
 });
 

@@ -1,4 +1,4 @@
-<section id="offer" class="bg-cover bg-center mt-16 py-16" style="background-image: url('//vegvi-store-newdemo.myshopify.com/cdn/shop/files/13_a2a86149-35d0-4c05-971a-448d39810d37.jpg?v=1721614761')">
+<section id="offer" class="bg-cover bg-center mt-16 py-16" style="background-image: url('{{ asset('images/offer-bg.jpg') }}')">
     <div class="container mx-auto p-6 grid lg:grid-cols-2">
         <div>
             <h3 class="font-semibold text-xl text-main mt-5">

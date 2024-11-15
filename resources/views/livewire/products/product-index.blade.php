@@ -28,7 +28,7 @@
         
             <div class="col-span-3 md:col-span-2 lg:col-span-1 mr-3">
                 <x-label class="text-xs" for="select" value="{{ __('Afficher par page') }}"/>
-                <x-select wire:model="perPage" class="mt-1 bg-white text-black">
+                <x-select wire:model.live="perPage" class="mt-1 bg-white text-black">
                 <option value="5">5</option>
                     <option value="10">10</option>
                     <option value="25">25</option>
@@ -138,11 +138,11 @@
             </tbody>
             </table>
             </div>
-            {{-- @if(!empty($posts))
+            @if(!empty($products))
             <div class="px-4 py-3 border-t bg-gray-50">
-                {{ $posts->links() }}
+                {{ $products->links() }}
             </div>
-            @endif --}}
+            @endif
             </div>
         {{-- <livewire:post.post-show /> --}}
         {{-- <livewire:post.post-create  /> --}}

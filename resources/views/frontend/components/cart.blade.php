@@ -26,31 +26,32 @@
                   <ul id="cart-items" role="list" class="-my-6 divide-y divide-gray-200">
                     @if($cartItems)
                     @forelse ($cartItems as $item)
-                    <li id="cart-id-{{ $item->id }}" class="flex py-6">
+
+                      <li id="cart-id-{{ $item->id }}" class="flex py-6">
                         <div class="h-24 w-24 flex-shrink-0 overflow-hidden rounded-md border border-gray-200">
-                          <img src="/{{ $item->product->main_image }}" alt="{{ $item->product->alt }}" class="h-full w-full object-contain object-center">
+                          <img src="{{ $item->pack_id == null ? $item->product->main_image : asset('images/pack-photo.jpg') }}" alt="{{ $item->pack_id == null ? $item->product->alt : '' }}" class="h-full w-full object-contain object-center">
                         </div>
                         <div class="ml-4 flex flex-1 flex-col">
                           <div>
                             <div class="flex justify-between text-base font-medium">
                               <h3 class="">
-                                <a href="#">{{ $item->product->name }}</a>
+                                <a href="#">{{ $item->pack_id == null ? $item->product->name : $item->pack->name }}</a>
                               </h3>
                               <div class="flex  space-x-1">
-                                @if($item->product->new_price > 0)
-                                  <p class="ml-4">{{ number_format($item->product->new_price, 2) }} </p>
-                                @else
-                                  <p class="ml-4">{{ number_format($item->product->price, 2) }} </p>
-                                @endif
+                                  <p class="ml-4">{{ $item->pack_id == null ? number_format($item->product->price,2) : number_format($item->pack->price,2) }}</p>
                                 <span class="text-xs">DHS</span>
                               </div>
                             </div>
-                            <p class="mt-1 text-sm">{{ $item->product->category->name }}</p>
+                            @if($item->pack_id == null)
+                              <p class="mt-1 text-sm">{{ $item->product->category->name }}</p>
+                            @endif
                           </div>
                           <div class="flex flex-1 items-end justify-between text-sm">
+                            @if($item->pack_id == null)
                             <div>
                               <p class="mt-1 text-sm">Quantity : {{ $item->quantity }}</p>
                             </div>
+                            @endif
 
                             <form action="{{ Route('cart.delete',['id' => $item->id]) }}" data-cart-id="{{ $item->id }}"  method="POST" class="flex cart-delete">
                               @csrf
@@ -60,6 +61,7 @@
                           </div>
                         </div>
                       </li>
+
                     @empty
                         
                     @endforelse

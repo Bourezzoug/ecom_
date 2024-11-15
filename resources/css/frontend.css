@@ -147,7 +147,8 @@ body {
     }
 }
 
-.timepicker-dropdown {
+.timepicker-dropdown,
+.timepicker-dropdown-2 {
     display: none;
     position: absolute;
     background-color: white;
@@ -157,10 +158,23 @@ body {
     width: 100%;
     z-index: 10;
 }
-.timepicker-dropdown div {
+.timepicker-dropdown div,
+.timepicker-dropdown-2 div {
     padding: 8px;
     cursor: pointer;
 }
-.timepicker-dropdown div:hover {
+.timepicker-dropdown div:hover,
+.timepicker-dropdown-2 div:hover {
     background-color: #f0f0f0;
+}
+
+
+.bg-main {
+    background-color: #448a23;
+}
+.text-main {
+    background-color: #448a23;
+}
+.border-main {
+    border-color: #448a23;
 }

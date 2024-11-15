@@ -72,22 +72,31 @@
                     <div class="relative p-3 bg-gray-100 text-gray-800 dark:text-gray-200 rounded-lg md:rounded-lg sm:rounded-sm">
                         <div class="absolute -top-4 right-3 px-3 pt-1 text-xs font-semibold bg-gray-100 text-gray-600  rounded-t-lg">{{ __('Products') }}</div>
                         <div class=" text-sm font-bold z-10">
-
                             @foreach(json_decode($order->products_cart) as $item)
-                            @php
-                                $product_name = App\Models\Product::find($item->product_id);
-                            @endphp
                                 <p class="my-2 flex justify-between">
-                                <span>
-                                    <span class="bg-gray-200 text-gray-600 p-1 rounded">Product Name:</span>
-                                    {{ $product_name->name }}
-                                </span>
-                                <span>
-                                    <span class="bg-gray-200 ml-10 text-gray-800 p-1 rounded">Price:</span>
-                                    ${{ $product_name->price }}
-                                    <span class="bg-gray-200 ml-10 text-gray-800 p-1 rounded">Quantity:</span>
-                                    {{ $item->quantity }}
-                                </span>
+                                    @if(isset($item->pack_name))
+                                        {{-- Pack item --}}
+                                        <span>
+                                            <span class="bg-gray-200 text-gray-600 p-1 rounded">Pack:</span>
+                                            {{ $item->pack_name }}
+                                        </span>
+                                        <span>
+                                            <span class="bg-gray-200 ml-10 text-gray-800 p-1 rounded">Price:</span>
+                                            {{ $item->pack_price }} Dhs
+                                        </span>
+                                    @else
+                                        {{-- Product item --}}
+                                        <span>
+                                            <span class="bg-gray-200 text-gray-600 p-1 rounded">Product:</span>
+                                            {{ $item->product }}
+                                        </span>
+                                        <span>
+                                            <span class="bg-gray-200 ml-10 text-gray-800 p-1 rounded">Price:</span>
+                                            {{ $item->price }} Dhs
+                                            <span class="bg-gray-200 ml-10 text-gray-800 p-1 rounded">Quantity:</span>
+                                            {{ $item->quantity }}
+                                        </span>
+                                    @endif
                                 </p>
                             @endforeach
                         </div>

@@ -26,15 +26,17 @@ public function getCartItems() {
         ];
     }
 
-
     $totalPrice = $cartItems->sum(function ($item) {
-                        if($item->product->new_price > 0) {
-                            return $item->product->new_price * $item->quantity;
-                        }
-                        else {
-                            return $item->product->price * $item->quantity;
-                        }
-                    });
+        if($item->pack_id != null && $item->product_id) {
+            return ($item->product->price * $item->quantity) + $item->pack->price;
+        }
+        elseif($item->pack_id != null) {
+            return $item->pack->price;
+        }
+        elseif($item->pack_id == null) {
+            return $item->product->price * $item->quantity;
+        }
+    });
     
 
     return [
