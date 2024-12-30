@@ -146,8 +146,8 @@ function removeItemFromCart(cartItemId) {
 }
 
 function updateCartUI(cart) {
-    const cartContainer = document.querySelector('#cart-items'); 
-    cartContainer.innerHTML = ''; 
+    const cartContainer = document.querySelector('#cart-items');
+    cartContainer.innerHTML = '';
 
     cart.forEach(item => {
         const listItem = document.createElement('li');
@@ -156,10 +156,10 @@ function updateCartUI(cart) {
 
         const imageDiv = document.createElement('div');
         imageDiv.classList.add('h-24', 'w-24', 'flex-shrink-0', 'overflow-hidden', 'rounded-md', 'border', 'border-gray-200');
-        
+
         const image = document.createElement('img');
-        image.src = "/" + item.product.main_image;
-        image.alt = item.product.alt;
+        image.src = item.pack_id ? '/images/pack-photo.jpg' : "/" + item.product.main_image;
+        image.alt = item.pack_id ? item.pack.name : item.product.alt;
         image.classList.add('h-full', 'w-full', 'object-contain', 'object-center');
         imageDiv.appendChild(image);
         listItem.appendChild(imageDiv);
@@ -169,28 +169,25 @@ function updateCartUI(cart) {
 
         const titlePriceDiv = document.createElement('div');
         titlePriceDiv.classList.add('flex', 'justify-between', 'text-base', 'font-medium');
-        
+
         const titleH3 = document.createElement('h3');
         const titleLink = document.createElement('a');
-        titleLink.href = `/product/${item.product.slug}`; 
-        titleLink.textContent = item.product.name;
+        titleLink.href = item.pack_id ? `/pack/${item.pack.slug}` : `/product/${item.product.slug}`;
+        titleLink.textContent = item.pack_id ? item.pack.name : item.product.name;
         titleH3.appendChild(titleLink);
         titlePriceDiv.appendChild(titleH3);
 
-        const priceP = document.createElement('p');
         const priceDiv = document.createElement('div');
+        priceDiv.classList.add('flex', 'space-x-1');
+
+        const priceP = document.createElement('p');
+        priceP.classList.add('ml-4');
+        priceP.innerText = item.pack_id ? item.pack.price.toFixed(2) : (item.product.new_price > 0 ? item.product.new_price.toFixed(2) : item.product.price.toFixed(2));
+
         const priceSpan = document.createElement('span');
         priceSpan.classList.add('text-xs');
-        priceDiv.classList.add('flex', 'space-x-1');
-        priceP.classList.add('ml-4');
-        
-        if(item.product.new_price > 0) {
-            priceP.innerText = `${item.product.new_price.toFixed(2)} `; 
-        } else {
-            priceP.innerText = `${item.product.price.toFixed(2)} `; 
-        }
-        
-        priceSpan.innerText = 'Dhs'; 
+        priceSpan.innerText = 'DHS';
+
         priceDiv.appendChild(priceP);
         priceDiv.appendChild(priceSpan);
         titlePriceDiv.appendChild(priceDiv);
@@ -198,12 +195,12 @@ function updateCartUI(cart) {
 
         const categoryP = document.createElement('p');
         categoryP.classList.add('mt-1', 'text-sm', 'text-[#999]');
-        categoryP.textContent = item.product.category.name;
+        categoryP.textContent = item.pack_id ? '' : item.product.category.name;
         detailsDiv.appendChild(categoryP);
 
         const actionsDiv = document.createElement('div');
         actionsDiv.classList.add('flex', 'flex-1', 'items-end', 'justify-between', 'text-sm');
-        
+
         const cartInfoDiv = document.createElement('div');
         const categoryText = document.createElement('p');
         categoryText.innerText = "Quantity : " + item.quantity;
@@ -227,6 +224,7 @@ function updateCartUI(cart) {
         cartContainer.appendChild(listItem);
     });
 }
+
 
 // Cart Insert Handler
 document.querySelectorAll(".cart-insert").forEach(form => {
@@ -539,6 +537,63 @@ if (infoBtn) {
     // Prevent hiding on clicks within the content, allowing selection and copying
     infoContent.addEventListener('click', (event) => {
         event.stopPropagation(); // Prevents event propagation to the document
+    });
+}
+
+// Pack Insert Handler
+const packInsert = document.querySelector('.pack-insert')
+if(packInsert) {
+    document.querySelectorAll(".pack-insert").forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+    
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const formData = new FormData(event.target); // Collect form data
+            const url = event.target.getAttribute('action'); // Form action URL
+    
+            fetch(url, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken,
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    console.log(data)
+                    // Handle successful addition of the pack
+                    // displayAlert('Pack added to the cart successfully.');
+    
+                    // Update the cart UI, total price, and count
+                    updateCartUI(data.cart);
+                    document.getElementById('totalPriceCart').innerText = data.totalPrice;
+                    document.getElementById('cart-btn-count').innerText = data.cartCount;
+    
+                    // Make the cart visible if hidden
+                    document.getElementById("cart-container").classList.remove("hidden");
+    
+                    setTimeout(() => {
+                        document.getElementById("cart-content").classList.remove("translate-x-full");
+                        document.getElementById("cart-content").classList.add("translate-x-0");
+                        document.getElementById("cart-bg-overlay").classList.remove("opacity-0");
+                        document.getElementById("cart-bg-overlay").classList.add("opacity-100");
+                    }, 50);
+    
+                    // Enable checkout if it was disabled
+                    const checkoutButton = document.getElementById("checkout");
+                    checkoutButton.classList.remove("pointer-events-none");
+                    checkoutButton.href = "/checkout";
+                } else {
+                    // Handle failure case
+                    displayAlert(data.message || 'Failed to add the pack to the cart.');
+                }
+            })
+            .catch(error => {
+                console.error('An error occurred:', error);
+                displayAlert('An error occurred while adding the pack to the cart.');
+            });
+        });
     });
 }
 

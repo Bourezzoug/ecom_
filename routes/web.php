@@ -10,6 +10,7 @@ Route::get('/contact', [FrontEndController::class,'contact'])->name('contact');
 Route::get('/about', [FrontEndController::class,'about'])->name('about');
 Route::get('/vegetables', [FrontEndController::class,'vegetables'])->name('vegetables');
 Route::get('/fruits', [FrontEndController::class,'fruits'])->name('fruits');
+Route::get('/arbres', [FrontEndController::class,'arbres'])->name('arbres');
 Route::get('/packs', [FrontEndController::class,'packs'])->name('packs');
 Route::get('/products/{categories}/{name}/{id}', [FrontEndController::class,'product'])->name('product');
 Route::post('/cart/{id}',[FrontEndController::class,'storeCart'])->name('cart.store');

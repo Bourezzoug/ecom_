@@ -35,6 +35,17 @@
         </x-select>
         </div>
 
+        <div class="col-span-3 md:col-span-2 lg:col-span-2 mr-3">
+          <x-label class="text-xs" for="startDate" value="{{ __('Start Date') }}"/>
+          <x-input wire:model.live="startDate" type="date" id="startDate" class="block w-full mt-1"
+                      autocomplete="off"/>
+        </div>
+        
+        <div class="col-span-3 md:col-span-2 lg:col-span-2 mr-3">
+          <x-label class="text-xs" for="endDate" value="{{ __('End Date') }}"/>
+          <x-input wire:model.live="endDate" type="date" id="endDate" class="block w-full mt-1"
+                      autocomplete="off"/>
+        </div>
 
         <div class="col-span-3 md:col-span-2 lg:col-span-2">
           <x-label class="text-xs" for="search" value="{{ __('Search') }}"/>

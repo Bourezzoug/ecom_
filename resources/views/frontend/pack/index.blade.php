@@ -1,6 +1,7 @@
 @extends('layouts.frontend')
 @section('content')
     @include('frontend.components.header')
+    @include('frontend.components.alert')
     <section class="bg-white dark:bg-gray-900">
         <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
             <div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
@@ -81,11 +82,12 @@
                             
                         @endforelse
                     </ul>
-                    <form action="{{ route('cart.store.pack') }}" method="POST">
+                    <form action="{{ route('cart.store.pack') }}" method="POST" class="pack-insert">
                         @csrf
                         <input type="hidden" name="pack_id" value="{{ $mediumOne->id }}">
                         <button type="submit" class="text-main bg-white hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white  dark:focus:ring-primary-900">Acheter</button>
                     </form>
+
                 </div>
                 <!-- Pricing Card -->
                 <div class="flex flex-col p-6 mx-auto max-w-lg text-center text-gray-900 bg-white rounded-lg border border-gray-100 shadow dark:border-gray-600 xl:p-8 dark:bg-gray-800 dark:text-white">

@@ -57,7 +57,7 @@ class ProductUpdate extends Component
             'name'              =>  $this->name ,
             'slug'              =>  Str::slug($this->name),
             'price'             =>  $productPrice,
-            'quantity'          =>  $this->quantity,
+            // 'quantity'          =>  $this->quantity,
             'typeQuantity'      =>  $this->typeQuantity,
             'unityQuantity'     =>  $this->unityQuantity,
             'category_id'       =>  $this->categorieID,

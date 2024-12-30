@@ -94,8 +94,8 @@
         </div>
       </div>
     </section>
-
-    <form  action="{{ Route("checkout.store") }}" method="POST" class="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
+    @if($totalPrice >= 99)
+    <form  action="{{ Route("checkout.store") }}" method="POST" id="checkoutForm" class="pt-16 pb-36 px-4 sm:px-6 lg:pb-16 lg:px-0 lg:row-start-1 lg:col-start-1">
       @csrf
       @if ($errors->any())
           <div class="alert alert-danger">
@@ -198,6 +198,9 @@
 
       </div>
     </form>
+    @else
+    <h2 class="text-lg font-medium mt-12">Il faut avoir minimum 99 DHS Pour finaliser la commande</h2>
+    @endif
   </div>
 </div>
 @else

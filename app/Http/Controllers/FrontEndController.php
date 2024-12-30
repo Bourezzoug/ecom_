@@ -58,6 +58,14 @@ class FrontEndController extends Controller
             'fruits'    =>  $fruits
         ]);
     }
+    public function arbres() {
+        $arbres = Product::where('category_id', 3)
+        ->orderByRaw("CASE WHEN percentage IS NOT NULL THEN 0 ELSE 1 END, created_at DESC")
+        ->paginate(12);
+        return view('frontend.shop.arbre',[
+            'arbres'    =>  $arbres
+        ]);
+    }
     public function product($categorie, $name, $id) {
         $product = Product::findOrFail($id);
         $products = Product::where('category_id',1)
@@ -72,68 +80,66 @@ class FrontEndController extends Controller
     }
 
     public function storeCart($id, Request $request) {
-        // Validate the product ID
-        $validator = Validator::make(['id' => $id], [
+        $validator = Validator::make(['id' => $id, 'pack_id' => $request->pack_id], [
             'id' => 'required|integer|exists:products,id',
+            'pack_id' => 'nullable|integer|exists:packs,id',
         ]);
     
         if ($validator->fails()) {
-            return response()->json(['product_no_exist' => 'This product does not exist']);
+            return response()->json(['error' => $validator->errors()->first()]);
         }
     
-        // Check for an existing visitor ID in the session or create a new one
         if (!Session::has('visitor_id')) {
             $visitorId = (string) Str::uuid();
             Session::put('visitor_id', $visitorId);
         } else {
             $visitorId = Session::get('visitor_id');
         }
-
+    
+        $packId = $request->pack_id;
+    
         $existingCartItem = Cart::where('visitor_id', $visitorId)
-        ->where('product_id', $id)
-        ->first();
-
+            ->where('product_id', $id)
+            ->where('pack_id', $packId)
+            ->first();
+    
         if ($existingCartItem) {
-            return response()->json(['success' => false, 'message' => 'Product is already in the cart']);
-        }else {
-        // Retrieve cart item details
+            return response()->json(['success' => false, 'message' => 'Item is already in the cart']);
+        }
+    
         $quantity = $request->quantity;
     
-        // Store cart item in the database using visitor_id
-        $cartItem = Cart::Create(
-            [
-                'visitor_id' => $visitorId,
-                'product_id' => $id,
-                'quantity' => $quantity,
-                'quantityType' => $request->quantityType ?? null,
-            ]
-        );
-
-        $cart = Cart::with('product.category')
-                ->where('visitor_id', $visitorId)
-                ->get();
+        $cartItem = Cart::create([
+            'visitor_id' => $visitorId,
+            'product_id' => $id,
+            'pack_id' => $packId,
+            'quantity' => $quantity,
+            'quantityType' => $request->quantityType ?? null,
+        ]);
+    
+        $cart = Cart::with(['product.category', 'pack'])
+            ->where('visitor_id', $visitorId)
+            ->get();
+    
         $cartCount = $cart->count();
-                
-
         $totalPrice = $cart->sum(function ($item) {
-            if($item->product->new_price > 0) {
+            if ($item->pack_id) {
+                return $item->pack->price * $item->quantity;
+            } elseif ($item->product->new_price > 0) {
                 return $item->product->new_price * $item->quantity;
-            }
-            else {
+            } else {
                 return $item->product->price * $item->quantity;
             }
         });
     
         return response()->json([
-            'success'       => 'Product added to cart',
-            'cart'          =>  $cart,
-            'totalPrice'    =>  $totalPrice,
-            'cartCount'     =>  $cartCount,
+            'success' => 'Item added to cart',
+            'cart' => $cart,
+            'totalPrice' => $totalPrice,
+            'cartCount' => $cartCount,
         ]);
-        }
-    
-
     }
+    
 
 
     public function delete($id) {
@@ -142,47 +148,42 @@ class FrontEndController extends Controller
         ]);
     
         if ($validator->fails()) {
-            return response()->json(['product_no_exist' => 'This product do not exist']);
+            return response()->json(['error' => $validator->errors()->first()]);
         }
     
-        if (!Session::has('visitor_id')) {
-            $visitorId = (string) Str::uuid();
-            Session::put('visitor_id', $visitorId);
-        } else {
-            $visitorId = Session::get('visitor_id');
-        }
+        $visitorId = Session::get('visitor_id', (string) Str::uuid());
     
         try {
-            // First delete the cart item
-            $cart = Cart::findOrFail($id);
-            $cart->delete();
+            $cartItem = Cart::findOrFail($id);
+            $cartItem->delete();
     
-            // Then get updated counts and totals
-            $cartItems = Cart::with('product.category')
+            $cart = Cart::with(['product.category', 'pack'])
                 ->where('visitor_id', $visitorId)
                 ->get();
     
-            $cartCount = $cartItems->count();
-            $totalPrice = $cartItems->sum(function ($item) {
-                return $item->product->new_price > 0 
-                    ? $item->product->new_price * $item->quantity 
-                    : $item->product->price * $item->quantity;
+            $cartCount = $cart->count();
+            $totalPrice = $cart->sum(function ($item) {
+                return $item->pack_id
+                    ? $item->pack->price * $item->quantity
+                    : ($item->product->new_price > 0
+                        ? $item->product->new_price * $item->quantity
+                        : $item->product->price * $item->quantity);
             });
     
             return response()->json([
                 'success' => true,
-                'cart_delete' => 'The product is deleted from the cart',
+                'cart_delete' => 'The item has been removed from the cart',
                 'totalPrice' => number_format($totalPrice, 2, '.', ''),
-                'cartCount' => $cartCount
+                'cartCount' => $cartCount,
             ]);
-    
         } catch (\Exception $e) {
             return response()->json([
                 'success' => false,
-                'error' => 'An error occurred while deleting the item'
+                'error' => 'An error occurred while deleting the item',
             ], 500);
         }
     }
+    
 
 
     public function search(Request $request) {
@@ -431,26 +432,64 @@ class FrontEndController extends Controller
         // dd($request->email);
     }
     public function storeCartPack(Request $request) {
-         // Check for an existing visitor ID in the session or create a new one
-         if (!Session::has('visitor_id')) {
+        // Check for an existing visitor ID in the session or create a new one
+        if (!Session::has('visitor_id')) {
             $visitorId = (string) Str::uuid();
             Session::put('visitor_id', $visitorId);
         } else {
             $visitorId = Session::get('visitor_id');
         }
-        $quantity = 1;
     
-        // Store cart item in the database using visitor_id
-        $cartItem = Cart::Create(
-            [
-                'visitor_id' => $visitorId,
-                'product_id' => null,
-                'pack_id'   =>  $request->pack_id,
-                'quantity' => $quantity,
-                'quantityType' => null,
-            ]
-        );
+        $packId = $request->pack_id;
+    
+        // Check if the pack is already in the cart
+        $existingCartItem = Cart::where('visitor_id', $visitorId)
+            ->where('pack_id', $packId)
+            ->first();
+    
+        if ($existingCartItem) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Pack is already in the cart',
+            ]);
+        }
+    
+        // Add the pack to the cart
+        $quantity = 1;
+        $cartItem = Cart::create([
+            'visitor_id' => $visitorId,
+            'product_id' => null,
+            'pack_id' => $packId,
+            'quantity' => $quantity,
+            'quantityType' => null,
+        ]);
+    
+        // Retrieve updated cart data
+        $cart = Cart::with(['product.category', 'pack'])
+            ->where('visitor_id', $visitorId)
+            ->get();
+    
+        $cartCount = $cart->count();
+        $totalPrice = $cart->sum(function ($item) {
+            if ($item->pack_id) {
+                return $item->pack->price * $item->quantity;
+            } elseif ($item->product->new_price > 0) {
+                return $item->product->new_price * $item->quantity;
+            } else {
+                return $item->product->price * $item->quantity;
+            }
+        });
+    
+        // Return JSON response
+        return response()->json([
+            'success' => true,
+            'message' => 'Pack added to cart',
+            'cart' => $cart,
+            'totalPrice' => number_format($totalPrice, 2, '.', ''),
+            'cartCount' => $cartCount,
+        ]);
     }
+    
     public function packs() {
 
         $pakcs = Pack::orderBy('price', 'asc')->get();

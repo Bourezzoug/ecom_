@@ -14,7 +14,8 @@ class Order extends Model
         $query->where(function ($query) use ($term){
             $query->where('total_price','like', "%$term%")
                 ->orWhere('first_name','like', "%$term%")
-                ->orWhere('family_name','like', "%$term%");
+                ->orWhere('family_name','like', "%$term%")
+                ->orWhere('created_at','between', "%$term%");
         });
     }
 }

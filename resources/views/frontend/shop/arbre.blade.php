@@ -35,7 +35,7 @@
                             <option value="price-low-to-high">Price, low to high</option>
                             <option value="price-high-to-low">Price, high to low</option>
                         </select>
-                        <input type="hidden" name="category" value="{{ request()->query('category') }}">
+                        <input type="hidden" name="category" value="3">
                     </form>
                     <button class="lg:hidden" id="open-products-filter">
                         <i class="fa-solid fa-ellipsis text-[#cecece] text-2xl"></i>
@@ -43,32 +43,56 @@
                 </div>
     
                 <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @forelse ($products as $product)
+                    @forelse ($arbres as $arbre)
                     <!-- Product -->
                     <div class="swiper-slide">
                         <div class="flex flex-col items-center space-y-3 relative overflow-hidden">
-                            <a href="{{ Route('product',['categories' => $product->category->slug,'name' => $product->slug,'id' => $product->id]) }}">
-                                <img src="{{ $product->main_image }}" alt="{{ $product->alt }}">
+                            <a href="{{ Route('product',['categories' => $arbre->category->slug,'name' => $arbre->slug,'id' => $arbre->id]) }}">
+                                <img src="{{ $arbre->main_image }}" alt="{{ $arbre->alt }}">
                             </a>
                             <h3 class="font-medium">
-                                <a href="{{ Route('product',['categories' => $product->category->slug,'name' => $product->slug,'id' => $product->id]) }}">
-                                    {{ $product->name }}
+                                <a href="{{ Route('product',['categories' => $arbre->category->slug,'name' => $arbre->slug,'id' => $arbre->id]) }}">
+                                    {{ $arbre->name }}
                                 </a>
                             </h3>
-                            @if ($product->percentage != null)
+                            @if ($arbre->percentage != null)
                             <div class="flex items-center space-x-3 font-medium text-sm">
-                                <span class="text-main">{{ $product->price }} <span class="text-xs">Dhs</span></span>
-                                <del class="text-gray-400">{{ number_format($product->price + ($product->price * ($product->percentage / 100))) }} <span class="text-xs">Dhs</span></del>
+                                <span class="text-main">{{ number_format($arbre->price, 2) }} <span class="text-xs">Dhs</span></span>
+                                <del class="text-gray-400">{{ number_format($arbre->price + ($arbre->price * ($arbre->percentage / 100))) }} <span class="text-xs">Dhs</span></del>
                             </div>
                             @else
                             <div class="flex items-center space-x-3 font-medium text-sm">
-                                <span class="text-main">{{ $product->price }} <span class="text-xs">Dhs</span></span>
-                                {{-- <del class="text-gray-400">{{ $product->price + ($product->price * ($product->percentage / 100)) }} <span class="text-xs">Dhs</span></del> --}}
+                                <span class="text-main">{{ number_format($arbre->price, 2) }} <span class="text-xs">Dhs</span></span>
+                                {{-- <del class="text-gray-400">{{ $arbre->price + ($arbre->price * ($arbre->percentage / 100)) }} <span class="text-xs">Dhs</span></del> --}}
                             </div>
                             @endif
-                            @if ($product->percentage != null)
+                            @if ($arbre->percentage != null)
                                 <div class="absolute top-1 -right-12 bg-main py-1 px-4 text-white font-medium text-sm rotate-45 w-40 flex items-center justify-center">- 30%</div>
                             @endif
+                            <form action="{{ Route('cart.store',['id'  =>  $arbre->id]) }}" method="POST" class="flex items-center space-x-5 cart-insert">
+                                @csrf
+                                <!-- Input Number -->
+                                <div class="py-2 px-3 inline-block bg-white border border-gray-200 rounded-lg dark:bg-neutral-900 dark:border-neutral-700" data-hs-input-number="">
+                                    <div class="flex items-center gap-x-1.5">
+                                    <button type="button" onclick="updateQuantity({{ $arbre->typeQuantity == 'Unité' ? 1 : -0.5}})" class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Decrease" data-hs-input-number-decrement="">
+                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        </svg>
+                                    </button>
+                                    <input id="Quantity" name="quantity" min="1" class="p-0 w-6 bg-transparent border-0 text-gray-800 text-center focus:ring-0 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none dark:text-white" style="-moz-appearance: textfield;" type="number" aria-roledescription="Number field" value="1" data-hs-input-number-input="">
+                                    <button type="button" onclick="updateQuantity({{ $arbre->typeQuantity == 'Unité' ? 1 : 0.5}})" class="size-6 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-md border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 focus:outline-none focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-white dark:hover:bg-neutral-800 dark:focus:bg-neutral-800" tabindex="-1" aria-label="Increase" data-hs-input-number-increment="">
+                                        <svg class="shrink-0 size-3.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M5 12h14"></path>
+                                        <path d="M12 5v14"></path>
+                                        </svg>
+                                    </button>
+                                    <button type="submit" class="bg-main text-white rounded px-1">
+                                        <i class="fa-solid fa-cart-shopping text-xs"></i>
+                                    </button>
+                                    </div>
+                                </div>
+                                <!-- End Input Number -->
+                            </form>
                         </div>
                     </div>
                 @empty
@@ -79,7 +103,7 @@
     
                 </div>
                 <div class="mt-16">
-                    {{ $products->links() }}
+                    {{ $arbres->links() }}
                 </div>
             </div>
         </div>
@@ -98,33 +122,6 @@
                         </button>
                     </div>
                 </div>
-                {{-- <div id="categories" class="mb-10">
-                    <h3 class="pb-5 mb-6 border-b border-[#f0f0f0] relative category-product-title">Category</h3>
-                    <ul>
-                        @forelse ($categories as $item)
-                            <a href="{{ Route('search.index') }}?category={{ $item->id }}" class="text-sm flex items-center justify-between relative category-links mb-4">
-                                <span>{{ $item->name }}</span>
-                                <i class="fa-solid fa-angles-right"></i>
-                            </a>
-                        @empty
-                            
-                        @endforelse
-                    </ul>
-                </div> --}}
-    
-                {{-- <div id="colors" class="mb-10">
-                    <h3 class="pb-5 mb-6 border-b border-[#f0f0f0] relative category-product-title">Colors</h3>
-                    <div class="flex gap-2 flex-wrap items-center">
-    
-                        @forelse ($variations as $item)
-                            <a href="{{ Route('search.index') }}?color={{ $item }}" class=" py-2 px-4" style="background-color: {{ $item }};color : {{ $item == 'Black' ? '#cecece' : '#000' }}">
-                                {{ $item }}
-                            </a>
-                        @empty
-                            
-                        @endforelse
-                    </div>
-                </div> --}}
                 <div id="price" class="mb-16">
                     <h3 class="pb-5 mb-6 border-b border-[#f0f0f0] relative category-product-title">Price</h3>
     
@@ -140,4 +137,27 @@
         </div>
     </section>
     @include('frontend.components.footer')
+    <script>
+        function updateQuantity(step) {
+            const input = document.getElementById('Quantity');
+            let currentValue = parseFloat(input.value) || 0;
+            const maxValue = parseFloat(input.getAttribute('max'));
+    
+            let newValue = currentValue + step;
+    
+            if (newValue > maxValue) {
+                newValue = maxValue;
+            } else if (newValue < 0) {
+                newValue = 0;
+            }
+
+            if(step == 0.5) {
+              input.value = newValue.toFixed(1);
+            }
+            else {
+            input.value = newValue;
+            }
+    
+        }
+    </script>
 @endsection

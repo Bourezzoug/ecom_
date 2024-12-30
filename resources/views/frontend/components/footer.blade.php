@@ -72,7 +72,7 @@
                     <span>Whatsapp</span>
                 </a>
             </div>
-            <div class="px-8 pt-8">
+            <div class="px-8 pt-8 break-all">
                 <p class="font-medium mt-3">
                     QUESTIONS ? CONTACT US AT
                 </p>

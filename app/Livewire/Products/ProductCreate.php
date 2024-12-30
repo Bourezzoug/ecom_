@@ -63,7 +63,7 @@ class ProductCreate extends Component
             'name'              =>  $this->name ,
             'slug'              =>  Str::slug($this->name),
             'price'             =>  $productPrice,
-            'quantity'          =>  $this->quantity,
+            // 'quantity'          =>  $this->quantity,
             'typeQuantity'      =>  $this->typeQuantity,
             'unityQuantity'     =>  $this->unityQuantity,
             'category_id'       =>  $this->categorieID,
@@ -90,14 +90,14 @@ class ProductCreate extends Component
             $data['main_image'] = 'storage/products/' . $filename;
         }
 
-        if (!empty($this->gallery)) {
-            $urls = [];
-            foreach ($this->gallery as $image) {
-                $url = $image->store('products', 'public');
-                $urls[] = '/storage/' . $url;
-            }
-            $data['gallery_images'] = implode(',',$urls);
-        }
+        // if (!empty($this->gallery)) {
+        //     $urls = [];
+        //     foreach ($this->gallery as $image) {
+        //         $url = $image->store('products', 'public');
+        //         $urls[] = '/storage/' . $url;
+        //     }
+        //     $data['gallery_images'] = implode(',',$urls);
+        // }
 
         Product::create($data);
 

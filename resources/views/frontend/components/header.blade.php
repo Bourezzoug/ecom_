@@ -14,6 +14,9 @@
             <a href="{{ Route('fruits') }}">
                 Fruits
             </a>
+            <a href="{{ Route('arbres') }}">
+                Arbres
+            </a>
             <a href="{{ Route('packs') }}">
                 Packs
             </a>

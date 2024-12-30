@@ -16,6 +16,8 @@ class OrderIndex extends Component
     
     public $selecteAll = false;
 
+    public $startDate,$endDate;
+
     protected $listeners = [ 'refreshParent' => '$refresh'];
 
     public int $perPage = 10;
@@ -185,6 +187,15 @@ class OrderIndex extends Component
         // * Search
         if (!empty($this->term)&& $this->term != null){
             $orders = $orders->search(trim($this->term));
+        }
+
+        // * Between Two Date Filtering
+        if (!empty($this->startDate) && !empty($this->endDate)) {
+                    $orders = $orders->whereBetween('created_at', [$this->startDate, $this->endDate]);
+        } elseif (!empty($this->startDate)) {
+                    $orders = $orders->where('created_at', '>=', $this->startDate);
+        } elseif (!empty($this->endDate)) {
+                    $orders = $orders->where('created_at', '<=', $this->endDate);
         }
 
 

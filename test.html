@@ -1,345 +1,162 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Le Patron Newslatter</title>
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap');
-   body{
-      font-family: Calibri,Candara,Segoe,Segoe UI,Optima,Arial,sans-serif; 
-   }
-   @media only screen and (max-width: 768px) {
-              /* For mobile phones: */
-             .bannieres_img{
-                width:100%!important
-            }
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Affichage Responsive</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+        #map {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
 </head>
-<body bgcolor="#fffff" style="margin: 0;padding: 0;">
-	
-    <!-- Section Header -->
-    <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-        <tr>
-            <td vlign="top" align="middle">
-                <table border="0" cellpadding="0"cellspacing="0" style="width:100%;padding: 15px;text-align: center;" >
-                    <tr>
-                        <td style="display: inline-block;max-width: 260px;width: 100%;">
-                            <a href="https://www.lepatron.ma/">
-                                <img align="absbottom" style="max-width: 180px; width: 100%;" src="https://lepatron.ma/storage/posts/April2022/iconayoub/logo-png.png" alt="Le Patron">
-                            </a>
-                        </td>
-                        <td style="display: inline-block;max-width: 20px;width: 100%;">
-                                &nbsp;
-                        </td>
-                        <td style="display: inline-block;max-width: 260px;width: 100%;">
-                            <a href="https://www.facebook.com/Lepatronma-100835285605945" target="_blank"><img align="absbottom" src="https://lepatron.ma/storage/posts/April2022/iconayoub/facebook2x.png" alt="Facebook" width="30"></a>
-                            <a href="https://www.linkedin.com/company/lepatron-ma/" target="_blank"><img align="absbottom" src="https://lepatron.ma/storage/posts/April2022/iconayoub/linkedin2x.png" alt="linekdin" width="30"></a>
-                            <a href="https://lepatron.ma/contact" target="_blank"><img align="absbottom" src="https://lepatron.ma/storage/posts/April2022/iconayoub/mail2x.png" alt="email" width="30"></a>
-                            <a href="https://lepatron.ma/" target="_blank"><img align="absbottom" src="https://lepatron.ma/storage/posts/April2022/iconayoub/website2x.png" alt="globalweb" width="30"></a>
-                            <span style=" color: #0d386b;display:block"><?php echo $date = (strftime("%A %d %B %Y"));?></span>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
-        <!-- End Section Header -->
-<!-- BANNER IMAGE -->
-<table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-    <tr>
-		<td>
-            <!--@if(isset($zones[16]) && !empty($zones[16]))-->
-            <!--{!! $zones[16] !!}-->
-            <!--@endif-->
-		</td>
-	</tr>
-</table>
-	<!-- End BANNER IMAGE -->
-    <!-- Start SECTION A LA UNE   -->
-    <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-        <tr>
-            <td style="background: #ffffff;padding:20px 20px;" align="center">
-                <h3 style="font-size: 1.5rem;border-bottom:4px solid #4b7959;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">A la une</h3>
-            </td>
-        </tr>
-    </table>
-    <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;width: 100%;" align="center">
-        <tr>
-            <td vlign="top" align="middle" style="background-color: #f1f1f1; ">
-                <table border="0" cellpadding="0"cellspacing="0" style="width:100%;padding: 5px;text-align: center;">
-                    @foreach($posts[1] as $alaunes)
-                    <tr>
-                        <td style="display: inline-block;max-width: 600px;width: 100%;">
-                                <a href="#">
-                                    <img width="100%" src="" style="max-width: 600px;">
-                                </a>
-                                <div style="padding: 0px 5px;">
-                                <h3 style="font-size: 1.1rem;font-weight: 600;line-height: normal;text-align: center;text-overflow: ellipsis;">{{ $alaunes->title }}</h3>
-                                <p style="font-size: 1.1rem;line-height: 1.6rem;font-weight: 400;text-align: justify;text-overflow: ellipsis;">{{ Str::limit($alaunes->excerpt,$words = 200, $end=' ...') }} </p>
-                                
-                              <span style="display: inline-block; margin: 11px; text-align: center; float: right;"><a style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;" href="#" target="_blank">Lire la suite</a></span>
-                                </div>
-                        </td>
-                    </tr>
-                    @endforeach
-                </table>
-            </td>
-        </tr>
-    </table>
-    <!-- End SECTION A LA UNE   -->
-    <!-- BANNER IMAGE -->
-<table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-    <tr>
-		<td style="padding: 20px 0px">
-            <!--@if(isset($zones[5]) && !empty($zones[5]))-->
-            <!--{!! $zones[5] !!}-->
-            <!--@endif-->
-		</td>
-	</tr>
-</table>
-     <!-- Start SECTION Entreprise -->
-        <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-            <tr>
-                <td style="background: #ffffff;padding:20px 20px;" align="center">
-                    <h3 style="font-size: 1.5rem;border-bottom:4px solid #138ecc;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">Entreprises</h3>
-                </td>
-            </tr>
-        </table>
-        <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-            <tr>
-                @foreach($posts[2] as $entreprises)
-                <td style="display: inline-block;max-width: 286px;width: 100%;background: #f1f1f1;border: solid 2px #fff;padding:5px;height: 346px;">
-                  <a href="#"><img src="" style="max-width:280px;width:100%;height: 280px;max-height: 200px;"></a>  
-                  <h3 style="font-size: 1.1rem;font-weight: 600;width: 100%;height: 93px;max-height: 93px;margin: 13px 0px;line-height: 1.5rem;text-overflow: ellipsis;overflow: hidden;">{{ str_limit($entreprises->title) }}</h3>
-                  <!-- <p style="font-size: 0.9rem;line-height: 1.6rem;font-weight: 400;text-align: left;height: 100px;margin: auto;">{{ str_limit($entreprises->excerpt, 70) }}</p> -->
-                <span style="display: inline-block; margin: 0px 11px 11px 11px; text-align: center;"><a href="#" style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;" target="_blank">Lire la suite</a></span> 
-                </td>
-                @endforeach
-            </tr>
-         
-        </table>
-        <!-- End SECTION Entreprise -->
-    <!-- Start Section Finnance and ecomonmie -->
-    <!--                                                                                                                    -->
-    <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-        <tr>
-            <td style="padding: 20px 0px">
-         
-                <!--@if(isset($zones[6]) && !empty($zones[6]))-->
-                <!--{!! $zones[6] !!}-->
-                <!--@endif-->
-            </td>
-        </tr>
-    </table>
-    <!--                                                                                                                    -->
-    <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-        <tr>
-            <td style="background: #ffffff;padding:20px 20px;" align="center">
-                <h3 style="font-size: 1.5rem;border-bottom:4px solid #184674;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">ECONOMIE & FINANCE</h3>
-            </td>
-        </tr>
-    </table>
-    <!--                                                                                                                    -->
-    <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-        <tr>
-            @foreach($posts[3] as $economies)
-            <td style="display: inline-block;max-width: 286px;width: 100%;background: #f1f1f1;border: solid 2px #fff;padding:5px;height: 346px;">
-              <a href="#"><img src="" style="max-width:280px;width:100%;height: 280px;max-height: 200px;"></a>  
-              <h3 style="font-size: 1.1rem;font-weight: 600;width: 100%;height: 93px;max-height: 93px;margin: 13px 0px;line-height: 1.5rem;text-overflow: ellipsis;overflow: hidden;">{{ str_limit($economies->title) }}</h3>
-              <!-- <p style="font-size: 0.9rem;line-height: 1.6rem;font-weight: 400;text-align: left;">{{ Str::limit($economies->excerpt, 70) }}</p> -->
-            <span style="display: inline-block; margin: 0px 11px 11px 11px; text-align: center;"><a href="#" style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;" target="_blank">Lire la suite</a></span> 
-            </td>
-            @endforeach
-        </tr>
-     
-    </table>
-    <!-- End Section Finnance and ecomonmie -->
-        <!--                                                                                                                    -->
-        <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-            <tr>
-                <td style="padding: 20px 0px">
-                    <!--@if(isset($zones[7]) && !empty($zones[7]))-->
-                    <!--{!! $zones[7] !!}-->
-                    <!--@endif-->
-                </td>
-            </tr>
-        </table>
-        <!--                                                                                                                   
-<!-- START SECTION Business -->
-         <!--Start SECTION TOURISME -->
-        <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-            <tr>
-                <td style="background: #ffffff;padding:20px 20px;" align="center">
-                    <h3 style="font-size: 1.5rem;border-bottom: 4px solid #d5663a;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">TOURISME</h3>
-                </td>
-            </tr>
-        </table>
-        <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-            <tr>
-                @foreach($posts[4] as $tourismes)
-                <td style="display: inline-block;max-width: 286px;width: 100%;background: #f1f1f1;border: solid 2px #fff;padding:5px;height: 346px;">
-                  <a href="#"><img src="" style="max-width:280px;width:100%;height: 280px;max-height: 200px;"></a>  
-                  <h3 style="font-size: 1.1rem;font-weight: 600;width: 100%;height: 93px;max-height: 93px;margin: 13px 0px;line-height: 1.5rem;text-overflow: ellipsis;overflow: hidden;">{{ str_limit($tourismes->title) }}</h3>
-                   
-				  
-				  <span style="display: inline-block; margin: 0px 11px 11px 11px; text-align: center;"><a href="#" style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;" target="_blank">Lire la suite</a></span> 
-                </td>
-                @endforeach
-            </tr>
-         
-        </table>
-        <!-- End SECTION TOURISME -->
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">Logo</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Accueil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
 
-        <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-            <tr>
-                <td style="padding: 20px 0px">
-                    <!--@if(isset($zones[8]) && !empty($zones[8]))-->
-                    <!--{!! $zones[8] !!}-->
-                    <!--@endif-->
-                </td>
-            </tr>
-        </table>
-<table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-    <tr>
-        <td style="background: #ffffff;padding:20px 20px;" align="center">
-            <h3 style="font-size: 1.5rem;border-bottom:4px solid #4b7959;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">Business</h3>
-        </td>
-    </tr>
-</table>
-<table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;width: 100%;" align="center">
-    <tr>
-        <td vlign="top" align="middle" style="background-color: #f1f1f1; ">
-            <table border="0" cellpadding="0"cellspacing="0" style="width:100%;padding: 5px;text-align: center;">
-                
-                @foreach($posts[6] as $carrieres)
-                <tr>
-                    <td style="display: inline-block;max-width: 600px;width: 100%;">
-                            <a href="#">
-                                <img width="100%" src="" style="max-width: 600px;">
-                            </a>
-                            <div style="padding: 0px 5px;">
-                            <h3 style="font-size: 1.1rem;font-weight: 600;line-height: normal;text-align: center;text-overflow: ellipsis;">{{ Str::limit($carrieres->title) }}</h3>
-                            <p style="font-size: 1.1rem;line-height: 1.6rem;font-weight: 400;text-align: justify;text-overflow: ellipsis;">{{ Str::limit($carrieres->excerpt, 200,) }} </p>
-                            
-                          <span style="display: inline-block; margin: 11px; text-align: center; float: right;"><a style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;" href="#" target="_blank">Lire la suite</a></span>
-                            </div>
-                    </td>
-                </tr>
-                @endforeach
-            </table>
-        </td>
-    </tr>
-</table>
-@if(isset($categories)) 
-@if($categories[1]->afficher_news==1)
-<!-- End SECTION Business -->
-        <!--                                                                                                                    -->
-        <table  border="0" cellpadding="0" cellspacing="0" style=" max-width:600px;background-color: #fff;width: 100%;" align="center">
-            <tr>
-                <td style="padding: 20px 0px">
-                    <!--@if(isset($zones[9]) && !empty($zones[9]))-->
-                    <!--{!! $zones[9] !!}-->
-                    <!--@endif-->
-                    
-                </td>
-            </tr>
-        </table>
-        <!--                                                                                                                    -->
-    
-        <!--                                                                                                                    -->
+    <!-- Carousel Section -->
+    <div id="mainCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="/api/placeholder/1200/400" class="d-block w-100" alt="Slide 1">
+            </div>
+            <div class="carousel-item">
+                <img src="/api/placeholder/1200/400" class="d-block w-100" alt="Slide 2">
+            </div>
+            <div class="carousel-item">
+                <img src="/api/placeholder/1200/400" class="d-block w-100" alt="Slide 3">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
 
-                                                                                                                  
-                <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-                    <tr>
-                        <td style="background: #ffffff;padding:20px 20px;" align="center">
-                            <h3 style="font-size: 1.5rem;border-bottom:4px solid #000000;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">NOMINATION</h3>
-                        </td>
-                    </tr>
-                </table>
-                <!-- START SECTION NOMINATION -->
-                <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-                    <tr>
-                       
-                        <td style="display: inline-block;max-width: 286px;width: 100%;background: #f1f1f1;border: solid 2px #fff;padding:5px;">
-                          <a href="#"><img src="" style="max-width:280px;width:100%;height: 280px;max-height: 200px;"></a>  
-                          <h3 style="font-size: 1rem;font-weight: 600;line-height: normal;text-align: left;">{{ ($nominations[0]->title) }}</h3>
-                          <p style="font-size: 0.9rem;line-height: 1.6rem;font-weight: 400;text-align: left;">{{ Str::substr($nominations[0]->excerpt, 0,120) }}</p>
-                        <span style="display: inline-block; margin: 11px; text-align: center; "><a href="#" style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;"target="_blank">Lire la suite</a></span> 
-                        </td>
-                        <td style="display: inline-block;max-width: 286px;width: 100%;">
-                                <div style="max-width:250px; display: inline-block;">
-                                    <a href="mailto:info@wibday.com" target="_blank">
-                                        <div class="container" >
-                                             <!--/ Banniere A la une  -->
-                                             <img style="width:100%!important" class="bannieres_img" src="https://www.lepatron.ma/storage/bannieres/nomination.jpg">
-                                        </div>
-                                    </a> 
-                                </div>  
-                          </td>
-                    </tr>
-                </table>
-                @endif
-                @endif
-                <!-- End SECTION NOMINATION -->
+    <div class="container">
+        <!-- Cards Section -->
+        <div class="row mb-4">
+            <h2 class="mb-4">Nos Services</h2>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card">
+                    <img src="/api/placeholder/400/300" class="card-img-top" alt="Service 1">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 1</h5>
+                        <p class="card-text">Description du service 1</p>
+                        <a href="#" class="btn btn-primary">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card">
+                    <img src="/api/placeholder/400/300" class="card-img-top" alt="Service 2">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 2</h5>
+                        <p class="card-text">Description du service 2</p>
+                        <a href="#" class="btn btn-primary">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-3">
+                <div class="card">
+                    <img src="/api/placeholder/400/300" class="card-img-top" alt="Service 3">
+                    <div class="card-body">
+                        <h5 class="card-title">Service 3</h5>
+                        <p class="card-text">Description du service 3</p>
+                        <a href="#" class="btn btn-primary">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-                <!-- START SECTION AGENDA -->
-                <table  border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-                    <tr>
-                        <td style="padding: 20px 0px">
-                            @if(isset($zones[10]) && !empty($zones[10]))
-                            {!! $zones[10] !!}
-                            @endif
-                        </td>
-                    </tr>
-                </table>
-                <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;" align="center">
-                    <tr>
-                        <td style="background: #ffffff;padding:20px 20px;" align="center">
-                            <h3 style="font-size: 1.5rem;border-bottom:4px solid #263934;font-weight: bold;color: #000;display: inline;margin:20px 0px;text-transform: uppercase;">Agenda</h3>
-                        </td>
-                    </tr>
-                </table>
-                <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-                   
-                   <table border="0"  cellpadding="0" cellspacing="0" style="max-width:600px;width: 100%;text-align: center;border-color: #ffffff;" align="center">
-    <tr>
-        <td style="background-color: #f1f1ff;"> 
-            <table  border="0" cellpadding="0" cellspacing="0" width="600" style="max-width: 100%;width: 100%;">
-                @foreach($posts[5] as $key => $agendas)
-                <tr>
-                    <td style="border: solid #fff 2px;padding: 10px 0px;">
-                            <div class="image-thum" style="display: inline-block;width: 275px; ">
-                               <a href="#" target="_blank" rel="noopener noreferrer"><img style="width: 100%; display: block;height: 166px; max-height: 166px;"  src="" alt="" srcset=""></a> 
-                            </div>
-                            <div style="display: inline-block;width: 275px;padding: 8px 19px;margin: 0;vertical-align: top;">
-                                <a style="text-decoration: none; color: #000;" href="#" target="_blank" rel="noopener noreferrer"><h3 style="font-size: 1em;font-weight: 600;line-height: normal;text-align: left;margin: 0;letter-spacing: normal;">{{ str_limit($agendas->title) }}</h3></a>
-                                <p style="font-size: 0.9rem;line-height: normal;font-weight: 400;text-align: left;margin: 0;padding: 12px 0px;">{{ str_limit($agendas->excerpt, 100) }}</p>
-                                <span style="display: inline-block; margin: 0; text-align: center;float: right;"><a href="#" style="background-color: #0d386b;color: #fff;padding: 7px 7px;text-decoration: none;font-size: 1rem;"target="_blank">Lire la suite</a></span>
-                            </div> 
-                    </td>
-                </tr>
-                @endforeach
-            </table>
-        </td>
-    </tr>
-</table>
+        <!-- Team Section -->
+        <div class="row mb-4">
+            <h2 class="mb-4">Notre Équipe</h2>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center mb-3">
+                <img src="/api/placeholder/150/150" class="mb-3" alt="Team Member 1">
+                <h5>Nom Prénom</h5>
+                <p>Position</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center mb-3">
+                <img src="/api/placeholder/150/150" class="mb-3" alt="Team Member 2">
+                <h5>Nom Prénom</h5>
+                <p>Position</p>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 text-center mb-3">
+                <img src="/api/placeholder/150/150" class="mb-3" alt="Team Member 3">
+                <h5>Nom Prénom</h5>
+                <p>Position</p>
+            </div>
+        </div>
 
-                </table>
-                <!-- End SECTION AGENDA -->
-                <!-- Start SECTION Footer -->
-                <table border="0" cellpadding="0" cellspacing="0" style="max-width:600px;background-color: #fff;width: 100%;text-align: center;" align="center">
-                <tr>
-                    <td style="background-color: #565656;padding: 35px 20px;">
-                      <p style="color: #fff;font-size: 0.8rem;font-weight: 500;text-align: center;line-height: 1.5rem;">
-                            Pour vous assurer de recevoir nos e-mails, il vous suffit d’ajouter notre adresse
-                            e-mail <strong>news@e.nl-wibday.ma</strong> à votre liste d’expéditeurs autorisés</p>
-                    </td> 
-                </tr>
-                </table>
+        <!-- Contact and Map Section -->
+        <div class="row mb-4">
+            <div class="col-md-6 mb-3">
+                <h2>Contact</h2>
+                <p><i class="bi bi-telephone"></i> +33 1 23 45 67 89</p>
+                <p><i class="bi bi-envelope"></i> contact@example.com</p>
+                <p><i class="bi bi-geo-alt"></i> 123 Rue Example, 75000 Paris</p>
+            </div>
+            <div class="col-md-6">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
 
-                <!-- End SECTION Footer -->
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Google Maps JavaScript API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY"></script>
+    <script>
+        function initMap() {
+            const map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 48.8566, lng: 2.3522 }, // Paris coordinates
+                zoom: 13,
+            });
+            const marker = new google.maps.Marker({
+                position: { lat: 48.8566, lng: 2.3522 },
+                map: map,
+                title: "Notre location"
+            });
+        }
+        window.addEventListener('load', initMap);
+    </script>
 </body>
 </html>

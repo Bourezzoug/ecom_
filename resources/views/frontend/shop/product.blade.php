@@ -98,7 +98,6 @@
                             id="Quantity"
                             name="quantity"
                             class="h-10 w-16 rounded border border-[#cecece] bg-transparent text-center [-moz-appearance:_textfield] sm:text-sm [&::-webkit-outer-spin-button]:m-0 [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:m-0 [&::-webkit-inner-spin-button]:appearance-none"
-                            max="{{ $product->quantity }}"
                             step="0.5"
                             value="1"
                             readonly

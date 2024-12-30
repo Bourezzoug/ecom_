@@ -150,7 +150,7 @@
                                   </div>
                                 </main>
                         </div>
-                        <div class="col-span-1 md:col-span-2  lg:col-span-4 mt-6">
+                        {{-- <div class="col-span-1 md:col-span-2  lg:col-span-4 mt-6">
                             <main class="p-5 pt-0 ">
                                 <div class="flex  items-start w-full">
                                     <ul class="flex flex-col w-full">
@@ -200,7 +200,7 @@
                                     </ul>
                                 </div>
                               </main>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="grid col-span-2">
                         <div class="col-span-4 md:col-span-2  lg:col-span-2">
@@ -247,22 +247,22 @@
                                               <x-input-error for="typeQuantity" class="mt-2 input-error" />
                                             </div>
                                             @if($typeQuantity == 'Kilogramme')
-                                              <div class="pt-5 mr-5 pl-3">
+                                              {{-- <div class="pt-5 mr-5 pl-3">
                                                 <x-label for="quantity" value="{{ __('Quantity') }}"/>
                                                 <x-input wire:model.live="quantity" id="quantity" type="number" class="input-field mt-1 block w-full xl:w-80 " step="0.5" min="1" />
                                                 <x-input-error for="quantity" class="mt-2 input-error"/>
-                                              </div> 
+                                              </div>  --}}
                                               <div class="pt-5 mr-5 pl-3">
                                                 <x-label for="price" value="{{ __('Price') }}"/>
                                                 <x-input wire:model.live="price" id="price" type="number" class="input-field mt-1 block w-full xl:w-80 "/>
                                                 <x-input-error for="price" class="mt-2 input-error"/>
                                               </div>
                                             @elseif($typeQuantity == 'Unité')
-                                              <div class="pt-5 mr-5 pl-3">
+                                              {{-- <div class="pt-5 mr-5 pl-3">
                                                 <x-label for="quantity" value="{{ __('Quantity') }}"/>
                                                 <x-input wire:model.live="quantity" id="quantity" type="number" class="input-field mt-1 block w-full xl:w-80 " step="1" />
                                                 <x-input-error for="quantity" class="mt-2 input-error"/>
-                                              </div> 
+                                              </div>  --}}
                                               <div class="pt-5 mr-5 pl-3">
                                                 <x-label for="unityQuantity" value="{{ __('Combien de gramme dans une unité') }}"/>
                                                 <x-input wire:model.live="unityQuantity" id="unityQuantity" type="number" class="input-field mt-1 block w-full xl:w-80 " step="250" />
